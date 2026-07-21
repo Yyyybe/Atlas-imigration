@@ -1,1 +1,394 @@
+# RFC-002 — System Architecture
 
+**Status:** Accepted  
+**Version:** 1.0.0  
+**Author:** Atlas AI Founding Team  
+**Date:** July 21, 2026
+
+---
+
+# 1. Purpose
+
+This document defines the technical architecture of Atlas AI.
+
+Its purpose is to ensure that every future product built by Atlas follows the same engineering principles, enabling scalability, maintainability, and long-term evolution.
+
+The first implementation target is Atlas Immigration.
+
+---
+
+# 2. Architecture Philosophy
+
+Atlas is not a single application.
+
+Atlas is a platform.
+
+Every future product must reuse the same core infrastructure.
+
+Products should implement business rules while sharing authentication, AI services, storage, notifications, memory, and security.
+
+---
+
+# 3. High-Level Architecture
+
+                    Frontend (Next.js)
+
+                            │
+
+                     REST API (FastAPI)
+
+                            │
+
+                Atlas Intelligence Engine
+
+                            │
+
+    ┌─────────────┬──────────────┬─────────────┐
+
+ Authentication   Business Logic    AI Services
+
+    │                    │                 │
+
+ PostgreSQL         Storage         RAG Pipeline
+
+    │                    │                 │
+
+ Redis             Object Storage     Vector Database
+
+---
+
+# 4. Core Components
+
+Atlas is composed of independent modules.
+
+Each module has a single responsibility.
+
+### Authentication
+
+Responsible for:
+
+- user registration
+- login
+- session management
+- permissions
+
+---
+
+### Profile Service
+
+Stores permanent user information.
+
+Examples:
+
+- nationality
+- destination country
+- profession
+- languages
+- immigration goals
+
+---
+
+### Case Management
+
+Represents one real-world process.
+
+Examples:
+
+- Move to Spain
+- Residence Renewal
+- Family Reunification
+- Citizenship Application
+
+A single user may own multiple Cases.
+
+---
+
+### Journey Engine
+
+Tracks the progress of each Case.
+
+Responsibilities:
+
+- progress calculation
+- current stage
+- completed missions
+- timeline
+
+---
+
+### Mission Engine
+
+Transforms complex bureaucracy into structured objectives.
+
+Mission
+
+↓
+
+Tasks
+
+↓
+
+Completion
+
+---
+
+### Document Service
+
+Responsible for:
+
+- secure upload
+- OCR
+- validation
+- categorization
+- expiration tracking
+
+---
+
+### Notification Engine
+
+Atlas does not send engagement notifications.
+
+Notifications are generated only when they create value.
+
+Examples:
+
+- upcoming deadline
+- missing document
+- legal update affecting the user's Case
+- appointment reminder
+
+---
+
+### Conversation Engine
+
+The chatbot is not the product.
+
+The chatbot is an interface to the Atlas Intelligence Engine.
+
+Every conversation must consider:
+
+- user profile
+- active Case
+- journey stage
+- uploaded documents
+- previous conversations
+
+---
+
+# 5. Atlas Intelligence Engine (AIE)
+
+The AIE is the central component of the platform.
+
+It coordinates all intelligent behavior.
+
+Submodules include:
+
+- Diagnostic Engine
+- Planning Engine
+- Journey Engine
+- Conversation Engine
+- Notification Engine
+
+Every future Atlas product will reuse this engine.
+
+---
+
+# 6. Diagnostic First
+
+No AI conversation should occur before an initial diagnosis.
+
+Users first complete an adaptive assessment.
+
+Only after sufficient context has been collected may conversational assistance begin.
+
+This principle is mandatory across all Atlas products.
+
+---
+
+# 7. Adaptive Diagnostic
+
+The diagnostic process is dynamic.
+
+Each answer determines the next question.
+
+This prevents unnecessary questions while increasing personalization.
+
+The diagnostic ends only when Atlas has enough information to generate a reliable action plan.
+
+---
+
+# 8. AI Workflow
+
+Every AI response follows the same pipeline.
+
+User Request
+
+↓
+
+Load Profile
+
+↓
+
+Load Active Case
+
+↓
+
+Load Journey
+
+↓
+
+Retrieve Relevant Documents
+
+↓
+
+Search Official Knowledge Base
+
+↓
+
+Generate Context
+
+↓
+
+Produce Response
+
+↓
+
+Persist Relevant Memory
+
+The AI never answers without context.
+
+---
+
+# 9. Knowledge Architecture
+
+Atlas relies on Retrieval-Augmented Generation (RAG).
+
+Only trusted information should be retrieved.
+
+Sources include:
+
+- government websites
+- immigration agencies
+- official legislation
+- consulates
+- ministries
+
+Every retrieved document must include:
+
+- source
+- publication date
+- country
+- language
+- version
+
+---
+
+# 10. Data Storage
+
+The platform separates information into different storage systems.
+
+### PostgreSQL
+
+Structured business data.
+
+### Object Storage
+
+Uploaded files.
+
+### Vector Database
+
+Semantic search.
+
+### Redis
+
+Caching.
+
+---
+
+# 11. Scalability
+
+Every service must be replaceable.
+
+Examples:
+
+- AI provider
+- storage provider
+- vector database
+- authentication service
+
+Business logic must remain independent from infrastructure.
+
+---
+
+# 12. Security
+
+Atlas adopts privacy by design.
+
+Requirements:
+
+- encrypted communication
+- encrypted storage for sensitive data
+- authentication required for all private resources
+- audit logs
+- secure backups
+- least privilege access
+
+---
+
+# 13. Engineering Principles
+
+Every module should satisfy:
+
+- single responsibility
+- loose coupling
+- high cohesion
+- clear interfaces
+- testability
+- documentation
+
+---
+
+# 14. Future Products
+
+The architecture must support:
+
+- Atlas Immigration
+- Atlas Legal
+- Atlas Finance
+- Atlas Health
+- Atlas Education
+
+without redesigning the core infrastructure.
+
+---
+
+# 15. Architecture Principles
+
+The following principles are mandatory.
+
+1. Diagnose before advising.
+
+2. Context before conversation.
+
+3. Trust before automation.
+
+4. Simplicity before complexity.
+
+5. Platform before product.
+
+---
+
+16. Build for Evolution
+Every major architectural decision must make future evolution easier, not harder.
+
+# Decision Summary
+
+Atlas is built as an AI platform centered around the Atlas Intelligence Engine.
+
+Every product shares the same architectural principles while implementing domain-specific business logic.
+
+The architecture prioritizes modularity, scalability, transparency, and long-term maintainability.
+
+---
+
+**Approved by:** Atlas AI Founding Team
