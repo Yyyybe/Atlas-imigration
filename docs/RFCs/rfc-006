@@ -1,0 +1,329 @@
+# RFC-006 — Atlas Intelligence Engine (AIE)
+
+**Status:** Accepted  
+**Version:** 1.0.0  
+**Author:** Atlas AI Founding Team  
+**Date:** July 21, 2026
+
+---
+
+# 1. Purpose
+
+This RFC defines the Atlas Intelligence Engine (AIE).
+
+The AIE is the central intelligence layer responsible for understanding user goals, planning personalized journeys, monitoring progress and providing contextual assistance.
+
+Unlike traditional chatbots, Atlas does not answer isolated questions.
+
+Atlas guides people toward achieving real-world objectives.
+
+---
+
+# 2. Intelligence Philosophy
+
+Atlas is goal-oriented.
+
+Every interaction exists to move the user one step closer to a defined objective.
+
+Conversation is a tool.
+
+Guidance is the product.
+
+---
+
+# 3. Core Principle
+
+Goal
+
+↓
+
+Diagnosis
+
+↓
+
+Planning
+
+↓
+
+Execution
+
+↓
+
+Monitoring
+
+↓
+
+Adaptation
+
+↓
+
+Goal Achieved
+
+This cycle governs every Atlas product.
+
+---
+
+# 4. AI Independence
+
+Atlas Intelligence Engine is independent from any specific AI provider.
+
+Supported providers may include:
+
+- OpenAI
+- Anthropic
+- Google
+- Open-source models
+
+Business intelligence always remains inside Atlas.
+
+Changing providers must never require redesigning the platform.
+
+---
+
+# 5. Core Components
+
+The AIE consists of independent modules.
+
+## Diagnostic Engine
+
+Understands the user's situation.
+
+Builds contextual knowledge.
+
+---
+
+## Planning Engine
+
+Creates personalized journeys.
+
+Generates missions.
+
+Generates tasks.
+
+Calculates priorities.
+
+---
+
+## Monitoring Engine
+
+Observes user progress.
+
+Detects inactivity.
+
+Detects completed objectives.
+
+Detects missing information.
+
+---
+
+## Adaptation Engine
+
+Updates journeys whenever:
+
+- laws change
+- user information changes
+- documents expire
+- objectives change
+
+Atlas never silently changes guidance.
+
+Every update includes an explanation.
+
+---
+
+## Conversation Engine
+
+Provides contextual conversation.
+
+Every response considers:
+
+- Identity
+- Active Case
+- Journey
+- Missions
+- Documents
+- Recommendation History
+- Knowledge Sources
+
+The AI never answers without context.
+
+---
+
+## Notification Engine
+
+Determines whether communication creates value.
+
+Notifications are generated only when they improve the user's journey.
+
+---
+
+# 6. Context Assembly
+
+Before every AI response Atlas assembles context.
+
+Identity
+
+↓
+
+Goal
+
+↓
+
+Case
+
+↓
+
+Journey
+
+↓
+
+Mission
+
+↓
+
+Documents
+
+↓
+
+Relevant legislation
+
+↓
+
+Recommendation history
+
+↓
+
+Conversation
+
+↓
+
+Response
+
+---
+
+# 7. Recommendation Strategy
+
+Every recommendation should include:
+
+- objective
+- reason
+- required actions
+- estimated effort
+- official source
+- next step
+
+---
+
+# 8. Explainability
+
+Every recommendation can be expanded.
+
+Levels:
+
+1. Simple explanation
+
+2. Detailed explanation
+
+3. Official legal source
+
+4. Complete interpretation
+
+Users choose the desired level.
+
+---
+
+# 9. Trust
+
+Atlas never:
+
+- invents legal requirements;
+- hides uncertainty;
+- changes recommendations without explanation;
+- creates unnecessary urgency.
+
+Whenever confidence is insufficient Atlas clearly communicates uncertainty.
+
+---
+
+# 10. Recommendation Optimization
+
+Whenever multiple legal paths exist, Atlas evaluates them.
+
+Selection criteria may include:
+
+- fewer documents;
+- lower cost;
+- shorter processing time;
+- fewer legal risks;
+- greater probability of success.
+
+Atlas recommends the most efficient lawful path while explaining why it was selected.
+
+---
+
+# 11. Learning
+
+Atlas continuously improves.
+
+The platform learns from:
+
+- completed journeys;
+- anonymized usage patterns;
+- user feedback;
+- legal updates.
+
+Personal data is never used beyond applicable privacy rules.
+
+---
+
+# 12. Human Oversight
+
+Atlas does not replace legal professionals.
+
+Whenever a situation exceeds acceptable confidence or requires individualized legal interpretation, Atlas clearly recommends consulting a qualified professional.
+
+---
+
+# 13. Long-Term Memory
+
+Atlas remembers journeys.
+
+Not conversations.
+
+The objective is continuity.
+
+Users should never restart their history.
+
+---
+
+# 14. Decision Record
+
+Every recommendation stores:
+
+- reasoning version
+- knowledge version
+- AI provider
+- timestamp
+- supporting evidence
+
+This enables future review and auditing.
+
+---
+
+# 15. Future Evolution
+
+The Atlas Intelligence Engine is designed to support every future Atlas product without changing its core reasoning cycle.
+
+Only domain-specific knowledge and planning rules should change.
+
+---
+
+# Decision Summary
+
+Atlas Intelligence Engine is a goal-driven orchestration layer.
+
+Its responsibility is not simply answering questions but continuously guiding users toward successful outcomes through trustworthy, explainable and personalized intelligence.
+
+---
+
+**Approved by:** Atlas AI Founding Team
