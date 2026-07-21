@@ -1,0 +1,414 @@
+# RFC-005 — User Experience & Interaction Specification
+
+**Status:** Accepted  
+**Version:** 1.0.0  
+**Author:** Atlas AI Founding Team  
+**Date:** July 21, 2026
+
+---
+
+# 1. Purpose
+
+This document defines how users interact with Atlas.
+
+Every interface, workflow, API, and AI decision must support the experience described in this RFC.
+
+The objective is to create an experience where users never feel lost, overwhelmed, or uncertain about what to do next.
+
+---
+
+# 2. UX Philosophy
+
+Atlas is not a chatbot.
+
+Atlas is an intelligent guide.
+
+The platform exists to reduce uncertainty by transforming complex bureaucratic journeys into clear, manageable steps.
+
+Every interaction should answer one question:
+
+> **"What is my next step?"**
+
+---
+
+# 3. Core Experience Principles
+
+## 3.1 Diagnose Before Advising
+
+Atlas always understands the user's situation before generating recommendations.
+
+Conversation comes after context.
+
+---
+
+## 3.2 Guide Before Explaining
+
+Whenever possible, Atlas first guides the user.
+
+Detailed explanations remain available on demand.
+
+---
+
+## 3.3 Reduce Cognitive Load
+
+Users should never need to make unnecessary decisions.
+
+The platform should always present a recommended next action.
+
+---
+
+## 3.4 Context Everywhere
+
+Every screen must understand the user's current journey.
+
+The user should never need to repeat information already known.
+
+---
+
+## 3.5 Transparency
+
+Every recommendation should be explainable.
+
+Users can always understand:
+
+- why something is required;
+- where the information comes from;
+- when exceptions apply.
+
+---
+
+# 4. First-Time Experience
+
+The onboarding flow is mandatory.
+
+Splash Screen
+
+↓
+
+Welcome
+
+↓
+
+Account Creation
+
+↓
+
+Adaptive Diagnostic
+
+↓
+
+Personalized Analysis
+
+↓
+
+Journey Creation
+
+↓
+
+Dashboard
+
+↓
+
+Atlas Assistant Available
+
+No conversational AI is presented before the diagnostic is complete.
+
+---
+
+# 5. Adaptive Diagnostic
+
+The diagnostic is dynamic.
+
+Questions change according to previous answers.
+
+The system asks only the information necessary to generate a reliable migration plan.
+
+The interface never displays:
+
+"Question 4 of 37"
+
+Instead, Atlas communicates progress naturally.
+
+Example:
+
+> "We're learning about your situation."
+
+---
+
+# 6. Personalized Journey
+
+After the diagnostic Atlas automatically creates:
+
+- User Profile
+- Active Case
+- Journey
+- Missions
+- Tasks
+- Timeline
+
+The user never starts from an empty dashboard.
+
+---
+
+# 7. Dashboard
+
+The dashboard is the center of the product.
+
+Its purpose is to answer:
+
+"What should I do now?"
+
+Primary sections:
+
+• Current Mission
+
+• Journey Progress
+
+• Timeline
+
+• Documents
+
+• Notifications
+
+• Atlas Assistant
+
+The chat is not the homepage.
+
+The journey is.
+
+---
+
+# 8. Mission Mode
+
+Each mission opens a focused workspace.
+
+Example:
+
+Mission
+
+Obtain Criminal Record Certificate
+
+Inside Mission Mode Atlas presents:
+
+- Purpose
+- Required documents
+- Official sources
+- Estimated duration
+- Estimated costs (when available)
+- Next steps
+
+The interface should eliminate distractions.
+
+The user focuses on completing one objective at a time.
+
+---
+
+# 9. Atlas Assistant
+
+Atlas Assistant is available throughout the platform.
+
+Its purpose is to remove obstacles without interrupting the user's workflow.
+
+Unlike traditional chatbots, Atlas Assistant is contextual.
+
+It always understands:
+
+- current screen;
+- active mission;
+- user's profile;
+- current Case;
+- uploaded documents.
+
+---
+
+# 10. Contextual Help
+
+Every question may include contextual assistance.
+
+Example:
+
+Question:
+
+Who issued your passport?
+
+Buttons:
+
+• What does this mean?
+
+• Why are you asking this?
+
+• Show me an example
+
+Atlas explains the concept without forcing users to leave the current screen.
+
+---
+
+# 11. Smart Dictionary
+
+Technical terms throughout the platform are interactive.
+
+Examples:
+
+- NIE
+- TIE
+- Apostille
+- Residence Permit
+- Criminal Record Certificate
+
+Selecting a highlighted term opens a concise explanation.
+
+Users remain on the same page.
+
+---
+
+# 12. Explain More
+
+Every important recommendation includes progressive explanations.
+
+Level 1
+
+Simple explanation.
+
+↓
+
+Level 2
+
+More details.
+
+↓
+
+Level 3
+
+Official legal source.
+
+↓
+
+Level 4
+
+Complete legal interpretation.
+
+Users decide how much information they need.
+
+---
+
+# 13. Notifications
+
+Atlas sends notifications only when they create value.
+
+Examples:
+
+- important deadline;
+- missing document;
+- legal update;
+- appointment reminder;
+- journey inactivity requiring attention.
+
+Daily engagement notifications are prohibited.
+
+---
+
+# 14. Communication Style
+
+Atlas communicates like an experienced professional.
+
+Language must be:
+
+- calm;
+- respectful;
+- direct;
+- encouraging;
+- honest.
+
+Atlas never:
+
+- creates unnecessary urgency;
+- uses fear;
+- exaggerates certainty;
+- blames users.
+
+---
+
+# 15. Returning Users
+
+When users return after a period of inactivity Atlas summarizes what happened.
+
+Example:
+
+Welcome back.
+
+While you were away:
+
+• One legal update may affect your journey.
+
+or
+
+• No relevant changes occurred.
+
+Your next mission remains:
+
+Translate your diploma.
+
+Users should immediately recover context.
+
+---
+
+# 16. Accessibility
+
+Atlas must be accessible.
+
+Requirements include:
+
+- high contrast;
+- readable typography;
+- keyboard navigation;
+- screen reader compatibility;
+- responsive layouts;
+- mobile-first design.
+
+---
+
+# 17. Long-Term Guidance
+
+Atlas accompanies users beyond immigration.
+
+Examples:
+
+- residence renewal;
+- family reunification;
+- permanent residency;
+- citizenship;
+- future legal obligations.
+
+The journey does not end after arrival.
+
+---
+
+# 18. Golden Rule
+
+Users should never wonder:
+
+"What do I do now?"
+
+Atlas always provides the next recommended action.
+
+---
+
+# 19. Never Leave the User Alone
+
+Whenever users face uncertainty, Atlas should proactively offer help before they need to search elsewhere.
+
+---
+
+# Decision Summary
+
+Atlas is a guided experience rather than a conversational experience.
+
+Conversation supports the journey.
+
+It never replaces it.
+
+Every interaction should increase confidence, reduce uncertainty, and help users move one step closer to their objective.
+
+---
+
+**Approved by:** Atlas AI Founding Team
