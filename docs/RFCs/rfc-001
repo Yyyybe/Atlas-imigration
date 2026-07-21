@@ -1,1 +1,143 @@
-rfc
+RFC-001 — Vision & Product Principles
+Status: Accepted
+Version: 1.0.0
+Author: Atlas AI Founding Team
+Date: July 21, 2026
+
+1. Purpose
+
+Atlas AI exists to simplify life's most complex bureaucratic journeys through trustworthy, explainable, and personalized artificial intelligence.
+The first product, Atlas Immigration, is designed to guide people through the entire immigration process—from planning and documentation to settlement and long-term residency.
+Atlas is not intended to be another chatbot. It is designed to become an intelligent companion that understands the user's situation, creates a personalized action plan, and accompanies them throughout their journey.
+
+2. Mission
+
+Build artificial intelligence products that reduce uncertainty during life's most important decisions.
+Our first mission is to make immigration simpler, safer, and less stressful for people moving between countries.
+
+3. Vision
+
+Become the world's most trusted AI platform for navigating complex bureaucratic processes.
+Immigration is only the first domain. The long-term vision includes legal services, education, finance, healthcare, and other areas where people face difficult decisions and fragmented information.
+
+4. Core Principles
+
+4.1 Trust First
+
+Trust is more valuable than speed.
+Atlas will never invent legal requirements, deadlines, or procedures.
+Whenever confidence is insufficient, Atlas must clearly communicate uncertainty.
+
+4.2 Explainability
+
+Every recommendation should be understandable.
+For every suggested action, Atlas should be able to explain:
+why it is required;
+which official source supports it;
+when exceptions may apply.
+
+4.3 Simplicity
+
+Complex bureaucracy should become simple tasks.
+Users should always know exactly what to do next.
+
+4.4 Human-Centered Design
+
+Atlas should reduce anxiety rather than create it.
+The platform must avoid technical jargon whenever a simpler explanation is possible.
+
+4.5 Personalization
+Every journey is unique.
+Recommendations should adapt to the user's:
+
+nationality;
+
+destination;
+
+immigration goal;
+
+current documentation;
+
+family situation;
+
+timeline.
+
+5. Product Philosophy
+
+Atlas is not a conversational AI.
+Conversation is only one component of the experience.
+The product begins with diagnosis.
+The platform should understand the user's context before providing recommendations.
+This principle is summarized as:
+Diagnose before advising.
+
+6. User Journey
+
+Every user follows four stages:
+
+Diagnostic
+
+Personalized Planning
+
+Guided Execution
+
+Long-Term Follow-up
+
+The platform accompanies the user throughout each stage instead of simply answering isolated questions.
+
+7. Design Principles
+
+The interface must be:
+
+clean;
+
+modern;
+
+reassuring;
+
+accessible;
+
+easy to understand.
+
+Every screen should present one primary objective.
+Users should never feel overwhelmed.
+
+8. Artificial Intelligence Principles
+
+The AI must:
+remember relevant context;
+adapt recommendations over time;
+provide transparent reasoning;
+rely on verified sources whenever possible.
+
+The AI must never:
+fabricate information;
+provide false certainty;
+replace qualified legal professionals when specialized advice is required.
+
+9. Long-Term Vision
+
+Atlas AI will become a platform composed of multiple products built on the same intelligent infrastructure.
+Examples include:
+
+Atlas Immigration
+
+Atlas Legal
+
+Atlas Finance
+
+Atlas Health
+
+Atlas Education
+Each product will share the same principles while solving different real-world problems.
+
+10. Success Metric
+
+The long-term success of Atlas will not be measured solely by revenue.
+The primary metric is the number of people successfully guided through life-changing bureaucratic journeys.
+Revenue is expected to be a consequence of creating exceptional value.
+Decision Summary
+Atlas is an AI platform that diagnoses before advising.
+Every product built under the Atlas ecosystem must prioritize trust, transparency, personalization, and long-term user guidance.
+
+Approved by: Atlas AI Founding Team
