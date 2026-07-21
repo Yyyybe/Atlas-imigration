@@ -1,1 +1,403 @@
+# RFC-003 — Data Model & Domain Design
 
+**Status:** Accepted  
+**Version:** 1.0.0  
+**Author:** Atlas AI Founding Team  
+**Date:** July 21, 2026
+
+---
+
+# 1. Purpose
+
+This RFC defines Atlas' domain model.
+
+Instead of focusing on database tables, Atlas models real-world journeys.
+
+The data model must represent people, their objectives, their documentation, their progress and every important decision made by the platform.
+
+Every future Atlas product should reuse this domain whenever possible.
+
+---
+
+# 2. Domain Philosophy
+
+Atlas models people.
+
+Not users.
+
+A person may use multiple Atlas products throughout life.
+
+The same identity should be reusable across every product.
+
+Examples:
+
+- Atlas Immigration
+- Atlas Legal
+- Atlas Health
+- Atlas Finance
+
+---
+
+# 3. Core Domain
+
+The central domain is composed of the following entities.
+
+Person
+
+↓
+
+Identity
+
+↓
+
+Case
+
+↓
+
+Journey
+
+↓
+
+Mission
+
+↓
+
+Task
+
+↓
+
+Document
+
+↓
+
+Conversation
+
+↓
+
+Notification
+
+↓
+
+Knowledge Source
+
+↓
+
+Audit Log
+
+---
+
+# 4. Person
+
+Represents a real individual.
+
+A Person owns one Atlas Identity.
+
+A Person may own multiple Cases.
+
+Examples:
+
+- Immigration to Spain
+- Citizenship
+- Residence Renewal
+
+---
+
+# 5. Atlas Identity
+
+Atlas Identity stores long-term information.
+
+Examples:
+
+- name
+- nationality
+- languages
+- profession
+- education
+- family composition
+- preferred language
+- communication preferences
+
+Identity information should be reusable across every future Atlas product.
+
+---
+
+# 6. Case
+
+A Case represents one real objective.
+
+Examples:
+
+- Move to Spain
+- Renew Residence Permit
+- Family Reunification
+
+Each Case has:
+
+- one Journey
+- many Missions
+- many Documents
+- many Conversations
+- many Notifications
+
+---
+
+# 7. Journey
+
+A Journey represents progress.
+
+Journey stores:
+
+- current stage
+- completion percentage
+- timeline
+- milestones
+- estimated completion
+
+Journeys are never deleted.
+
+Completed journeys become archived.
+
+---
+
+# 8. Mission
+
+A Mission represents one significant objective.
+
+Examples:
+
+- Obtain Passport
+- Criminal Record Certificate
+- Visa Application
+
+Missions are composed of Tasks.
+
+---
+
+# 9. Task
+
+A Task is one executable action.
+
+Examples:
+
+- Upload passport
+- Schedule appointment
+- Translate diploma
+
+Tasks can be:
+
+Pending
+
+↓
+
+In Progress
+
+↓
+
+Completed
+
+↓
+
+Verified (when applicable)
+
+---
+
+# 10. Document
+
+Documents represent uploaded files.
+
+Each document stores:
+
+- category
+- issuing country
+- issue date
+- expiration date
+- validation status
+- OCR status
+
+Atlas never modifies uploaded files.
+
+Processing results are stored separately.
+
+---
+
+# 11. Conversation
+
+Conversations are contextual.
+
+A Conversation always belongs to a Case.
+
+The Atlas Assistant always considers:
+
+- Person
+- Identity
+- Case
+- Journey
+- Missions
+- Documents
+
+before generating a response.
+
+---
+
+# 12. Notification
+
+Notifications exist only when they generate value.
+
+Examples:
+
+- deadline approaching
+- legal update
+- missing documentation
+- mission unlocked
+- important reminder
+
+Engagement notifications are intentionally avoided.
+
+---
+
+# 13. Knowledge Source
+
+Every recommendation should be traceable.
+
+Knowledge Sources store:
+
+- official source
+- jurisdiction
+- publication date
+- language
+- version
+- validity period
+
+AI responses should reference these sources whenever appropriate.
+
+---
+
+# 14. Audit Log
+
+Every important system action is recorded.
+
+Examples:
+
+- recommendation generated
+- mission completed
+- document uploaded
+- notification delivered
+- AI response
+
+Audit information supports transparency and debugging.
+
+---
+
+# 15. Recommendation History
+
+Atlas preserves recommendation history.
+
+Whenever recommendations change because of:
+
+- legal updates
+- policy changes
+- new user information
+
+Atlas records:
+
+- previous recommendation
+- updated recommendation
+- reason for change
+- timestamp
+- supporting knowledge sources
+
+Atlas never silently changes guidance.
+
+---
+
+# 16. AI Decision Record
+
+Every AI-generated recommendation stores:
+
+- prompt context
+- retrieved knowledge
+- model version
+- confidence level (internal)
+- generated response
+- referenced sources
+- generation timestamp
+
+This enables explainability and future audits.
+
+---
+
+# 17. Relationship Overview
+
+Person
+
+↓
+
+Atlas Identity
+
+↓
+
+Cases
+
+↓
+
+Journey
+
+↓
+
+Missions
+
+↓
+
+Tasks
+
+↓
+
+Documents
+
+↓
+
+Conversation
+
+↓
+
+Notifications
+
+All entities remain connected throughout the lifecycle of the Case.
+
+---
+
+# 18. API Philosophy
+
+The frontend should never manipulate the database directly.
+
+All interactions occur through versioned APIs.
+
+Business rules remain inside backend services.
+
+---
+
+# 19. Future Evolution
+
+The model should support:
+
+- multiple countries
+- multiple simultaneous Cases
+- future Atlas products
+- multiple AI providers
+- additional document types
+
+without requiring structural redesign.
+
+---
+
+# 20. Decision Summary
+
+Atlas models people and their journeys rather than isolated requests.
+
+The platform prioritizes traceability, explainability, long-term guidance and reusable identity.
+
+Every recommendation, document and decision should remain connected to the user's journey throughout its lifecycle.
+
+---
+
+**Approved by:** Atlas AI Founding Team
