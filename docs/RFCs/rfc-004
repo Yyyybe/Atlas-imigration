@@ -1,1 +1,363 @@
+# RFC-004 — Technology Stack & Development Environment
 
+**Status:** Accepted  
+**Version:** 1.0.0  
+**Author:** Atlas AI Founding Team  
+**Date:** July 22, 2026
+
+---
+
+# 1. Purpose
+
+This document defines the technologies used to build Atlas.
+
+The selected stack prioritizes:
+
+- fast development;
+- scalability;
+- low operational complexity;
+- AI integration;
+- future evolution.
+
+The stack must support Atlas Immigration and future Atlas products.
+
+---
+
+# 2. Engineering Principles
+
+Technology choices should optimize:
+
+1. Simplicity
+2. Productivity
+3. Reliability
+4. Scalability
+5. Replaceability
+
+Atlas should avoid unnecessary complexity.
+
+---
+
+# 3. Frontend
+
+Framework:
+
+- Next.js
+
+Language:
+
+- TypeScript
+
+Styling:
+
+- Tailwind CSS
+
+UI Components:
+
+- shadcn/ui
+
+Forms:
+
+- React Hook Form
+
+Validation:
+
+- Zod
+
+---
+
+# 4. Backend
+
+Framework:
+
+- FastAPI
+
+Language:
+
+- Python
+
+Reasons:
+
+- excellent AI ecosystem;
+- fast development;
+- strong typing;
+- automatic API documentation.
+
+---
+
+# 5. Database
+
+Primary database:
+
+- PostgreSQL
+
+Reasons:
+
+- reliability;
+- relational structure;
+- scalability.
+
+---
+
+# 6. Cache
+
+Technology:
+
+- Redis
+
+Uses:
+
+- sessions;
+- caching;
+- queues;
+- temporary state.
+
+---
+
+# 7. Document Storage
+
+Object Storage:
+
+- AWS S3
+or
+- Cloudflare R2
+
+Initial recommendation:
+
+Cloudflare R2.
+
+Reason:
+
+Lower costs.
+
+---
+
+# 8. Authentication
+
+Recommended:
+
+- Clerk
+or
+- Auth.js
+
+Initial recommendation:
+
+Clerk.
+
+Reason:
+
+Fast implementation.
+
+---
+
+# 9. AI Providers
+
+Atlas must support:
+
+- OpenAI
+- Anthropic
+- Google
+- Open-source models
+
+Providers should be interchangeable.
+
+---
+
+# 10. AI Orchestration
+
+Framework:
+
+- LangGraph
+
+Reasons:
+
+- workflows;
+- multi-step reasoning;
+- future agents.
+
+---
+
+# 11. Vector Database
+
+Recommended:
+
+- pgvector (inside PostgreSQL)
+
+Initial phase avoids separate vector databases.
+
+---
+
+# 12. OCR
+
+Possible providers:
+
+- Google Vision
+- AWS Textract
+- Tesseract
+
+MVP recommendation:
+
+Tesseract + optional cloud providers.
+
+---
+
+# 13. Notifications
+
+Email:
+
+- Resend
+
+Push notifications:
+
+- Firebase
+
+Future:
+
+WhatsApp integration.
+
+---
+
+# 14. Hosting
+
+Frontend:
+
+- Vercel
+
+Backend:
+
+- Railway
+
+Database:
+
+- Neon
+
+Object Storage:
+
+- Cloudflare R2
+
+---
+
+# 15. Development Environment
+
+Code Editor:
+
+- VS Code
+
+Version Control:
+
+- Git
+
+Repository:
+
+- GitHub
+
+---
+
+# 16. Project Structure
+
+backend/
+
+frontend/
+
+docs/
+
+rfcs/
+
+infra/
+
+scripts/
+
+---
+
+# 17. Backend Structure
+
+backend/
+
+app/
+
+api/
+
+models/
+
+services/
+
+repositories/
+
+ai/
+
+schemas/
+
+core/
+
+---
+
+# 18. Frontend Structure
+
+frontend/
+
+app/
+
+components/
+
+services/
+
+hooks/
+
+lib/
+
+types/
+
+---
+
+# 19. API Style
+
+REST API.
+
+Versioned:
+
+/api/v1/
+
+Future support:
+
+real-time updates.
+
+---
+
+# 20. Observability
+
+Monitoring:
+
+- Sentry
+
+Logs:
+
+- Structured logs
+
+Analytics:
+
+- PostHog
+
+---
+
+# 21. Future Evolution
+
+The stack should support:
+
+- millions of users;
+- multiple Atlas products;
+- multiple AI providers;
+- legal updates;
+- document processing.
+
+without redesign.
+
+---
+
+# Decision Summary
+
+Atlas adopts a modern web-first stack optimized for AI products.
+
+The selected technologies prioritize speed, scalability and maintainability while keeping future evolution simple.
+
+---
+
+**Approved by:** Atlas AI Founding Team
