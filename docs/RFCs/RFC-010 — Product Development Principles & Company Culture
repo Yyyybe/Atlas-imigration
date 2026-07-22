@@ -1,0 +1,242 @@
+# RFC-010 — Product Development Principles & Company Culture
+
+**Status:** Accepted
+**Version:** 1.0.0
+**Author:** Atlas AI Founding Team
+**Date:** July 22, 2026
+
+---
+
+# 1. Purpose
+
+This RFC defines the principles that guide every product decision at Atlas.
+
+Features, architecture and AI models may evolve.
+
+These principles should remain stable.
+
+Whenever uncertainty exists, these principles take precedence.
+
+---
+
+# 2. Mission
+
+Atlas exists to help people achieve important life goals through trustworthy artificial intelligence.
+
+Atlas reduces uncertainty.
+
+Atlas does not create dependency.
+
+---
+
+# 3. Vision
+
+Create the world's most trusted AI platform for guiding people through life's complex journeys.
+
+---
+
+# 4. Product Philosophy
+
+Atlas is not a chatbot.
+
+Atlas is not a search engine.
+
+Atlas is not a document repository.
+
+Atlas is an intelligent guide.
+
+Every feature should move the user closer to their objective.
+
+---
+
+# 5. User First
+
+Every decision begins with one question:
+
+"Does this genuinely help the user achieve their goal?"
+
+If the answer is no, the feature should not be built.
+
+---
+
+# 6. Simplicity
+
+Complexity belongs inside Atlas.
+
+Not in the user's experience.
+
+The platform should transform bureaucratic processes into clear, manageable journeys.
+
+---
+
+# 7. Trust
+
+Trust is earned.
+
+Never requested.
+
+Atlas earns trust by being:
+
+- honest;
+- transparent;
+- explainable;
+- consistent.
+
+---
+
+# 8. Explainability
+
+Important recommendations must always be explainable.
+
+Users should understand:
+
+- why;
+- how;
+- based on which sources.
+
+---
+
+# 9. Human Responsibility
+
+Atlas supports decision-making.
+
+Atlas does not replace the user's responsibility.
+
+The final decision always belongs to the individual.
+
+---
+
+# 10. Continuous Improvement
+
+Every completed journey is an opportunity to improve Atlas.
+
+Feedback should guide evolution.
+
+Assumptions should be challenged.
+
+---
+
+# 11. Engineering Principles
+
+Engineers should prioritize:
+
+- clarity over cleverness;
+- maintainability over shortcuts;
+- security over convenience;
+- quality over speed.
+
+---
+
+# 12. AI Principles
+
+AI should:
+
+- reduce uncertainty;
+- avoid hallucinations;
+- communicate confidence honestly;
+- recommend lawful paths only;
+- adapt responsibly.
+
+---
+
+# 13. Product Principles
+
+Atlas should never:
+
+- overwhelm users;
+- create unnecessary urgency;
+- hide uncertainty;
+- recommend actions without justification;
+- collect unnecessary information.
+
+---
+
+# 14. Company Principles
+
+Atlas should:
+
+- solve real problems;
+- respect different cultures;
+- support international users;
+- remain politically neutral;
+- comply with applicable laws.
+
+---
+
+# 15. Innovation
+
+Innovation is measured by problems solved.
+
+Not by the number of AI models integrated.
+
+---
+
+# 16. Long-Term Thinking
+
+Every important decision should be evaluated considering:
+
+- one month;
+- one year;
+- ten years.
+
+If a shortcut harms the long-term vision, it should be rejected.
+
+---
+
+# 17. Team Culture
+
+The best ideas win.
+
+Hierarchy should never prevent good ideas.
+
+Constructive disagreement is encouraged.
+
+Evidence is preferred over opinion.
+
+---
+
+# 18. Decision Framework
+
+Before implementing any new feature, the team should ask:
+
+1. Which problem does this solve?
+2. Who benefits?
+3. Is there a simpler solution?
+4. Does this increase user trust?
+5. Can we explain it clearly?
+6. Will we still be proud of this decision in five years?
+
+If multiple answers are negative, the feature should be reconsidered.
+
+---
+
+# 19. Lessons Learned
+
+The first ten RFCs established the foundations of Atlas.
+
+Key lessons:
+
+- Guide, don't overwhelm.
+- Diagnose before advising.
+- Trust is earned through transparency.
+- Every recommendation should be explainable.
+- Every journey is unique.
+- Simplicity is a competitive advantage.
+- AI is a tool. Trust is the product.
+- Great companies are built through consistent decisions.
+
+---
+
+# 20. Decision Summary
+
+Atlas is built to serve people during some of the most important moments of their lives.
+
+Technology will evolve.
+
+The mission remains.
+
+Every future Atlas product should inherit these principles.
+
+---
+
+**Approved by:** Atlas AI Founding Team
