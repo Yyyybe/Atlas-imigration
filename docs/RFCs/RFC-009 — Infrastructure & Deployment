@@ -1,0 +1,283 @@
+# RFC-009 — Infrastructure & Deployment
+
+**Status:** Accepted
+**Version:** 1.0.0
+**Author:** Atlas AI Founding Team
+**Date:** July 22, 2026
+
+---
+
+# 1. Purpose
+
+This RFC defines how Atlas is deployed, monitored and operated.
+
+Infrastructure must prioritize reliability, scalability and simplicity.
+
+The MVP should be inexpensive to operate while remaining capable of growing without major redesign.
+
+---
+
+# 2. Infrastructure Philosophy
+
+Atlas should:
+
+- deploy frequently;
+- recover quickly;
+- scale gradually;
+- minimize operational complexity.
+
+Infrastructure should support the product, not dominate engineering effort.
+
+---
+
+# 3. Environments
+
+Atlas maintains separate environments.
+
+Development
+
+↓
+
+Testing
+
+↓
+
+Staging
+
+↓
+
+Production
+
+Each environment must remain isolated.
+
+---
+
+# 4. Frontend Deployment
+
+Platform:
+
+Vercel
+
+Responsibilities:
+
+- Next.js hosting
+- CDN
+- SSL
+- Preview deployments
+
+---
+
+# 5. Backend Deployment
+
+Platform:
+
+Railway
+
+Responsibilities:
+
+- FastAPI hosting
+- Background workers
+- Scheduled jobs
+
+---
+
+# 6. Database
+
+Platform:
+
+Neon PostgreSQL
+
+Requirements:
+
+- automatic backups;
+- point-in-time recovery;
+- encrypted storage;
+- high availability.
+
+---
+
+# 7. File Storage
+
+Platform:
+
+Cloudflare R2
+
+Stores:
+
+- uploaded documents;
+- OCR outputs;
+- exported reports.
+
+Original documents remain immutable.
+
+---
+
+# 8. Secrets Management
+
+Secrets are never stored in source code.
+
+Environment variables are managed securely.
+
+Examples:
+
+- API keys
+- Database credentials
+- JWT secrets
+
+Access is restricted by environment.
+
+---
+
+# 9. CI/CD
+
+Every commit triggers automated pipelines.
+
+Pipeline stages:
+
+1. Install dependencies.
+2. Run formatting.
+3. Run linting.
+4. Run tests.
+5. Build application.
+6. Deploy (if approved).
+
+Deployments should be reproducible.
+
+---
+
+# 10. Monitoring
+
+Atlas continuously monitors:
+
+- uptime;
+- response time;
+- API failures;
+- AI failures;
+- document processing;
+- notification delivery.
+
+Monitoring tools:
+
+- Sentry
+- PostHog
+
+---
+
+# 11. Logging
+
+Logs should be:
+
+- structured;
+- searchable;
+- secure.
+
+Sensitive user data must never appear in logs.
+
+---
+
+# 12. Backups
+
+Automatic backups include:
+
+- database;
+- uploaded document metadata;
+- configuration.
+
+Backups are tested periodically.
+
+A backup that cannot be restored is not considered valid.
+
+---
+
+# 13. Disaster Recovery
+
+Atlas should recover from failures through documented procedures.
+
+Recovery objectives should be defined and reviewed periodically.
+
+Critical services must have recovery plans.
+
+---
+
+# 14. Background Jobs
+
+Long-running tasks execute asynchronously.
+
+Examples:
+
+- OCR processing;
+- AI analysis;
+- notification delivery;
+- legal update synchronization.
+
+Users should never wait unnecessarily for these operations.
+
+---
+
+# 15. Scalability
+
+Infrastructure should scale horizontally whenever possible.
+
+Growth should require configuration changes rather than architectural redesign.
+
+---
+
+# 16. Observability
+
+Every important request should be traceable.
+
+Metrics should include:
+
+- latency;
+- success rate;
+- AI response time;
+- upload duration;
+- OCR duration.
+
+---
+
+# 17. Deployment Strategy
+
+Preferred deployment model:
+
+Blue-Green Deployment (future)
+
+MVP may initially use rolling deployments.
+
+Downtime should be minimized.
+
+---
+
+# 18. Cost Awareness
+
+Infrastructure choices should balance:
+
+- reliability;
+- security;
+- operating costs.
+
+Optimization should never compromise user trust.
+
+---
+
+# 19. Future Evolution
+
+Infrastructure must support:
+
+- multiple Atlas products;
+- international expansion;
+- multi-region deployment;
+- multiple AI providers;
+- enterprise customers.
+
+---
+
+# 20. Decision Summary
+
+Atlas infrastructure is designed to be reliable, secure and scalable while remaining operationally simple during the MVP stage.
+
+Growth should be evolutionary rather than disruptive.
+
+---
+
+**Approved by:** Atlas AI Founding Team
