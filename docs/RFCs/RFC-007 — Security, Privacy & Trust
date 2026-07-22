@@ -1,0 +1,286 @@
+# RFC-007 — Security, Privacy & Trust
+
+**Status:** Accepted
+**Version:** 1.0.0
+**Author:** Atlas AI Founding Team
+**Date:** July 22, 2026
+
+---
+
+# 1. Purpose
+
+This RFC defines Atlas' security, privacy and trust principles.
+
+Atlas handles highly sensitive personal information.
+
+Security is not an additional feature.
+
+Security is part of the product.
+
+Every engineering decision must consider confidentiality, integrity, availability and transparency.
+
+---
+
+# 2. Security Philosophy
+
+Atlas assumes that every user document may contain highly sensitive information.
+
+Every component must be designed following the principle of least privilege.
+
+Only the minimum necessary information should be collected, processed and stored.
+
+---
+
+# 3. Privacy by Design
+
+Privacy is implemented from the first line of code.
+
+Atlas shall:
+
+- collect only necessary information;
+- minimize stored personal data;
+- encrypt sensitive information;
+- allow users to control their own data;
+- explain how information is used.
+
+---
+
+# 4. Trust Principles
+
+Atlas commits to:
+
+- honesty;
+- transparency;
+- explainability;
+- accountability;
+- legal compliance.
+
+The platform must never create false certainty.
+
+Whenever uncertainty exists, Atlas must clearly communicate it.
+
+---
+
+# 5. Authentication
+
+All private resources require authentication.
+
+Recommended methods:
+
+- Email + Password
+- Google
+- Apple
+- Microsoft
+
+Future support:
+
+- Passkeys
+- Multi-Factor Authentication (MFA)
+
+---
+
+# 6. Authorization
+
+Users may only access their own information.
+
+Internal services receive only the permissions strictly necessary.
+
+Administrative access must be auditable.
+
+---
+
+# 7. Encryption
+
+Sensitive information must be encrypted:
+
+During transmission:
+
+- TLS
+
+At rest:
+
+- Database encryption
+- Object Storage encryption
+
+Passwords must never be stored in plain text.
+
+Only secure password hashing algorithms are permitted.
+
+---
+
+# 8. Document Protection
+
+Uploaded documents require additional protection.
+
+Requirements:
+
+- encrypted storage;
+- secure access URLs;
+- access expiration;
+- malware scanning (future);
+- immutable original copy.
+
+Atlas never modifies original documents.
+
+Derived files are stored separately.
+
+---
+
+# 9. AI Privacy
+
+AI providers receive only the information necessary to complete a task.
+
+Whenever possible:
+
+- remove unnecessary identifiers;
+- minimize transmitted data;
+- separate documents from identity.
+
+Atlas should support replacing AI providers without exposing unnecessary user information.
+
+---
+
+# 10. Auditability
+
+Every critical action generates an audit record.
+
+Examples:
+
+- login;
+- document upload;
+- recommendation generated;
+- recommendation updated;
+- permission changes;
+- administrative actions.
+
+Audit logs must never be editable.
+
+---
+
+# 11. Legal Updates
+
+Whenever legislation changes:
+
+Atlas records:
+
+- previous recommendation;
+- updated recommendation;
+- legal justification;
+- effective date;
+- affected users.
+
+Atlas never silently changes guidance.
+
+---
+
+# 12. User Control
+
+Users have the right to:
+
+- view stored information;
+- update personal information;
+- download their data;
+- request account deletion (where legally applicable);
+- understand why information is requested.
+
+---
+
+# 13. Incident Response
+
+Security incidents require:
+
+- immediate investigation;
+- impact assessment;
+- user notification when legally required;
+- corrective actions;
+- permanent documentation.
+
+Every incident should generate internal lessons learned.
+
+---
+
+# 14. AI Safety
+
+Atlas AI must never:
+
+- invent legal requirements;
+- fabricate official sources;
+- hide uncertainty;
+- impersonate government authorities;
+- make decisions on behalf of users.
+
+The final decision always belongs to the user.
+
+---
+
+# 15. Data Retention
+
+Data should be retained only as long as necessary.
+
+Archived Cases remain available until:
+
+- user deletion request;
+- legal retention period expires;
+- regulatory requirements change.
+
+---
+
+# 16. Compliance
+
+Atlas should be designed to support compliance with:
+
+- GDPR
+- LGPD
+- future international privacy regulations.
+
+Compliance should be considered during architecture, not after deployment.
+
+---
+
+# 17. Internal Engineering Rules
+
+Developers must never:
+
+- hardcode secrets;
+- expose credentials;
+- log sensitive personal information;
+- bypass authentication;
+- disable security checks in production.
+
+Secrets must be stored using secure secret management.
+
+---
+
+# 18. Trust Communication
+
+Whenever Atlas generates an important recommendation, users should always be able to see:
+
+- why the recommendation exists;
+- supporting evidence;
+- official sources;
+- date of the legal information;
+- recommendation history.
+
+Trust increases when information is explainable.
+
+---
+
+# 19. Golden Rule
+
+Atlas protects people before protecting software.
+
+Whenever a conflict exists between convenience and user safety, safety takes priority.
+
+---
+
+# Decision Summary
+
+Security, privacy and transparency are core characteristics of Atlas.
+
+They are not optional features.
+
+Every future Atlas product must inherit these principles.
+
+---
+
+**Approved by:** Atlas AI Founding Team
