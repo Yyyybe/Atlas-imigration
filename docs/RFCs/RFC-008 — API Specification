@@ -1,0 +1,300 @@
+# RFC-008 — API Specification
+
+**Status:** Accepted
+**Version:** 1.0.0
+**Author:** Atlas AI Founding Team
+**Date:** July 22, 2026
+
+---
+
+# 1. Purpose
+
+This RFC defines the public API architecture for Atlas.
+
+The API is the communication layer between the frontend, the Atlas Intelligence Engine (AIE), and backend services.
+
+All business logic must reside in backend services.
+
+The frontend is responsible only for presentation and user interaction.
+
+---
+
+# 2. API Principles
+
+Every API must be:
+
+- Versioned
+- Stateless
+- Secure
+- Predictable
+- Well documented
+- Easy to evolve
+
+Base URL:
+
+/api/v1/
+
+Future versions:
+
+/api/v2/
+
+Older versions should remain available during migration periods.
+
+---
+
+# 3. Authentication
+
+Protected endpoints require authentication.
+
+Authentication methods:
+
+- JWT (managed by the authentication provider)
+- Secure cookies (where appropriate)
+
+Unauthenticated endpoints are limited to:
+
+- Sign up
+- Login
+- Password recovery
+- Health checks
+
+---
+
+# 4. Response Standard
+
+Every response follows a consistent structure.
+
+Success:
+
+```json
+{
+  "success": true,
+  "data": {},
+  "meta": {}
+}
+```
+
+Error:
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "DOCUMENT_NOT_FOUND",
+    "message": "The requested document could not be found."
+  }
+}
+```
+
+---
+
+# 5. Main Resources
+
+Core resources:
+
+- Person
+- Identity
+- Case
+- Journey
+- Mission
+- Task
+- Document
+- Conversation
+- Notification
+- Knowledge
+- Recommendation
+
+Each resource has its own endpoint group.
+
+---
+
+# 6. Authentication Endpoints
+
+POST /auth/login
+
+POST /auth/logout
+
+POST /auth/register
+
+GET /auth/me
+
+---
+
+# 7. Person Endpoints
+
+GET /person
+
+PATCH /person
+
+---
+
+# 8. Case Endpoints
+
+GET /cases
+
+POST /cases
+
+GET /cases/{id}
+
+PATCH /cases/{id}
+
+ARCHIVE /cases/{id}
+
+Cases are archived rather than deleted.
+
+---
+
+# 9. Journey Endpoints
+
+GET /journey/{caseId}
+
+Returns:
+
+- progress
+- stage
+- current mission
+- estimated completion
+- timeline
+
+---
+
+# 10. Mission Endpoints
+
+GET /missions
+
+GET /missions/{id}
+
+PATCH /missions/{id}
+
+POST /missions/{id}/complete
+
+---
+
+# 11. Task Endpoints
+
+GET /tasks
+
+PATCH /tasks/{id}
+
+POST /tasks/{id}/complete
+
+---
+
+# 12. Document Endpoints
+
+POST /documents/upload
+
+GET /documents
+
+GET /documents/{id}
+
+DELETE /documents/{id}
+
+DELETE requests perform a soft delete when legally applicable.
+
+---
+
+# 13. Conversation Endpoints
+
+POST /assistant/message
+
+GET /assistant/history
+
+The Atlas Assistant always receives the active Case context automatically.
+
+Clients never need to send unnecessary context.
+
+---
+
+# 14. Notification Endpoints
+
+GET /notifications
+
+PATCH /notifications/{id}/read
+
+---
+
+# 15. Recommendation Endpoints
+
+GET /recommendations/current
+
+GET /recommendations/history
+
+Users may compare previous and current recommendations.
+
+---
+
+# 16. Knowledge Endpoints
+
+GET /knowledge/article/{id}
+
+GET /knowledge/search
+
+These endpoints expose official knowledge and legal references used by Atlas.
+
+---
+
+# 17. API Documentation
+
+Automatic documentation must be generated.
+
+Preferred standards:
+
+- OpenAPI
+- Swagger UI
+- ReDoc
+
+Documentation must stay synchronized with implementation.
+
+---
+
+# 18. Error Handling
+
+Errors should be:
+
+- consistent;
+- human-readable;
+- machine-readable.
+
+Sensitive implementation details must never be exposed.
+
+---
+
+# 19. Rate Limiting
+
+Sensitive endpoints should implement request limits.
+
+Examples:
+
+- Login
+- Password recovery
+- AI requests
+- File uploads
+
+Rate limits help protect users and infrastructure.
+
+---
+
+# 20. Future Evolution
+
+The API must support:
+
+- Mobile applications
+- Third-party integrations (future)
+- Multiple Atlas products
+- Webhooks
+- Event-driven architecture
+
+without breaking existing clients.
+
+---
+
+# Decision Summary
+
+The Atlas API is designed to be predictable, secure, and stable.
+
+It exposes business capabilities rather than database structures and provides a long-term foundation for every Atlas product.
+
+---
+
+**Approved by:** Atlas AI Founding Team
