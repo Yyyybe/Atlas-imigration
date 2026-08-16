@@ -5,10 +5,30 @@ class JourneyService:
 
     def get_next_step(self, explorer: Person):
 
-        if explorer.destination_country == "Portugal":
-            return "Verificar validade do passaporte."
+        profile = explorer.profile
 
-        if explorer.destination_country == "Espanha":
-            return "Verificar tipo de visto necessário."
+        if not profile.has_passport:
+            return "Solicitar emissão do passaporte."
 
-        return "Destino ainda não suportado."
+        if not profile.passport_valid:
+            return "Renovar o passaporte."
+
+        if (
+            explorer.destination_country == "Portugal"
+            and not profile.has_criminal_record_certificate
+        ):
+            return "Providenciar o certificado de antecedentes criminais."
+
+        if (
+            explorer.destination_country == "Portugal"
+            and not profile.criminal_record_apostilled
+        ):
+            return "Providenciar a Apostila de Haia dos antecedentes criminais."
+
+        if (
+            explorer.destination_country == "Espanha"
+            and not profile.has_visa
+        ):
+            return "Verificar o tipo de visto necessário."
+
+        return "Nenhuma pendência encontrada."
