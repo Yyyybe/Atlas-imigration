@@ -17,9 +17,13 @@ export type JourneyResponse = {
   next_step: string;
 };
 
-const CORE_URL = process.env.ATLAS_CORE_URL ?? "http://127.0.0.1:8000";
+const CORE_URL = process.env.ATLAS_CORE_URL;
 
 export async function getCoreHealth(): Promise<boolean> {
+  if (!CORE_URL) {
+    return false;
+  }
+
   try {
     const response = await fetch(`${CORE_URL}/health`, {
       cache: "no-store",
@@ -34,6 +38,10 @@ export async function getCoreHealth(): Promise<boolean> {
 export async function getNextStep(
   request: JourneyRequest,
 ): Promise<JourneyResponse | null> {
+  if (!CORE_URL) {
+    return null;
+  }
+
   try {
     // Atlas Core currently exposes this route without the RFC-008 /api/v1
     // prefix. Keep the transport adapter aligned with the deployed contract;

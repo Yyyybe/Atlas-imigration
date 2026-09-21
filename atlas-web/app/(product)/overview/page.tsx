@@ -4,8 +4,6 @@ import { NextStepCard } from "@/app/features/dashboard/NextStepCard";
 import { ProgressCard } from "@/app/features/dashboard/ProgressCard";
 import { loadOverview } from "@/app/lib/overview-view-model";
 
-export const dynamic = "force-dynamic";
-
 export default async function OverviewPage() {
   const overview = await loadOverview();
 

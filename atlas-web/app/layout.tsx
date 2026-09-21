@@ -15,6 +15,9 @@ export const metadata: Metadata = {
   },
   description:
     "A calm, clear guide for every step of your immigration journey.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

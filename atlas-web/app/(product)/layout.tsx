@@ -2,8 +2,6 @@ import { AppShell } from "@/app/components/AppShell";
 import { formatLongDate, greetingFor } from "@/app/lib/datetime";
 import { fixtureOverview } from "@/app/lib/overview-view-model";
 
-export const dynamic = "force-dynamic";
-
 export default function ProductLayout({
   children,
 }: Readonly<{
