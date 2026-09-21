@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root {
+  --atlas-bg: #eef1f4;
+  --atlas-ink: #24344c;
+  --atlas-navy: #1d3b63;
+  --atlas-navy-deep: #152a48;
+  --atlas-navy-soft: #e4eef8;
+  --atlas-muted: #6b7a8d;
+  --atlas-line: #e4e9ef;
+  --atlas-line-strong: #c5d0dc;
+  --atlas-mist: #f4f7fa;
+  --atlas-ring: #d9e2ec;
+  --atlas-sand: #f3e4c0;
+  --atlas-sand-ink: #8a6a32;
+  --atlas-sand-line: #ead9b4;
+  --atlas-sky: #d7ebfb;
+  --atlas-sky-ink: #2f5f8a;
+  --atlas-sky-line: #c5dcf0;
+  --atlas-badge: #e07a3d;
+}
+
+html {
+  background: var(--atlas-bg);
+}
+
+body {
+  min-height: 100vh;
+  color: var(--atlas-ink);
+  background: var(--atlas-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
