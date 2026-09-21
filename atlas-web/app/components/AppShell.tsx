@@ -18,7 +18,7 @@ import {
 } from "@/app/components/Icons";
 
 const NAV = [
-  { href: "/", label: "Overview", icon: OverviewIcon },
+  { href: "/overview", label: "Overview", icon: OverviewIcon },
   { href: "/journey", label: "Journey", icon: JourneyIcon },
   { href: "/documents", label: "Documents", icon: DocumentsIcon, badge: true },
   { href: "/deadlines", label: "Deadlines", icon: DeadlinesIcon },
