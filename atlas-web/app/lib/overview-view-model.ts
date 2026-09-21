@@ -11,6 +11,7 @@ export type OverviewAlert = {
 
 export type OverviewDeadline = {
   id: string;
+  isoDate: string;
   month: string;
   day: string;
   title: string;
@@ -19,6 +20,7 @@ export type OverviewDeadline = {
 };
 
 export type OverviewModel = {
+  dataMode: "demo";
   user: {
     firstName: string;
     fullName: string;
@@ -86,13 +88,13 @@ const STEP_COPY: Record<
     context: "Part of background checks",
     requestTime: "About 20 minutes to request",
     waitTime: "5–15 business days to receive",
-    why: "Spain uses a recent criminal-record certificate to assess residence applications.",
+    why: "Atlas Core returned this task for the Portugal journey. Confirm the certificate's validity period and issuing authority against the current official source before filing.",
   },
   "Providenciar a Apostila de Haia dos antecedentes criminais.": {
     context: "Part of document legalization",
     requestTime: "About 20 minutes to request",
     waitTime: "3–10 business days to receive",
-    why: "An apostille confirms the certificate is authentic so a Spanish office can accept it.",
+    why: "Atlas Core returned this legalization task for the Portugal journey. Confirm the current apostille requirement against the official destination authority before filing.",
   },
   "Verificar o tipo de visto necessário.": {
     context: "Part of visa pathway",
@@ -108,15 +110,66 @@ const FIXTURE_NEXT_STEP: OverviewModel["nextStep"] = {
   requestTime: "About 20 minutes to request",
   waitTime: "3–10 business days to receive",
   daysLeft: 12,
-  why: "Spain needs an apostille to confirm your Brazilian birth certificate is genuine. Without it, the consulate cannot accept the document — even if the certificate itself is valid.",
+  why: "This sample shows how Atlas will explain why a task matters. Final guidance must be supported by a current official source before the user files a document.",
 };
 
-export function fixtureOverview(): OverviewModel {
+function addDays(date: Date, days: number): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
+
+function addMonths(date: Date, months: number): Date {
+  const result = new Date(date);
+  result.setMonth(result.getMonth() + months);
+  return result;
+}
+
+function monthYear(date: Date): string {
+  return date.toLocaleDateString("en-GB", {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function shortDate(date: Date): string {
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+  });
+}
+
+function demoDeadline(
+  now: Date,
+  id: string,
+  daysFromNow: number,
+  title: string,
+  category: string,
+): OverviewDeadline {
+  const date = addDays(now, daysFromNow);
+
   return {
+    id,
+    isoDate: date.toISOString(),
+    month: date
+      .toLocaleDateString("en-GB", { month: "short" })
+      .toUpperCase(),
+    day: String(date.getDate()),
+    title,
+    category,
+    remaining: `${daysFromNow}d`,
+  };
+}
+
+export function fixtureOverview(now = new Date()): OverviewModel {
+  const certificateExpiry = addDays(now, 14);
+
+  return {
+    dataMode: "demo",
     user: {
       firstName: "João",
       fullName: "João Almeida",
-      plan: "Atlas Plus · €19/mo",
+      plan: "Preview workspace",
     },
     corridor: {
       origin: "Brazil",
@@ -131,41 +184,39 @@ export function fixtureOverview(): OverviewModel {
       body: "The hardest stages — collecting records and choosing a pathway — are behind you. Legalization and the consulate appointment are next, so you are still on track.",
       stagesDone: 4,
       stagesTotal: 6,
-      started: "March 2026",
-      estimatedPermit: "Early Dec 2026",
+      started: monthYear(addMonths(now, -6)),
+      estimatedPermit: monthYear(addMonths(now, 3)),
     },
     nextStep: FIXTURE_NEXT_STEP,
     alerts: [
       {
         id: "criminal-record",
         tone: "warning",
-        title: "Criminal record certificate expires 2 Oct",
-        body: "Why it matters: Spain usually wants a certificate issued in the last 90 days. If it lapses, you may need a new copy before your appointment — so you are fine if you apostille this week.",
+        title: `Sample certificate expiry · ${shortDate(certificateExpiry)}`,
+        body: "This is demonstration data. In the real journey, Atlas should show the official validity rule, its source, and the action required before a document expires.",
       },
       {
         id: "visa-fee",
         tone: "info",
-        title: "Consulate visa fee changed to €80",
-        body: "Bring the updated amount in cash or card as listed on your appointment letter. Atlas already noted the change on your payment checklist.",
+        title: "Review your consulate checklist",
+        body: "This sample alert demonstrates where Atlas will surface verified fee, payment-method, and appointment changes from official sources.",
       },
     ],
     deadlines: [
-      {
-        id: "submission",
-        month: "SEP",
-        day: "20",
-        title: "File apostilled birth certificate",
-        category: "Submission",
-        remaining: "12d",
-      },
-      {
-        id: "appointment",
-        month: "SEP",
-        day: "26",
-        title: "Consulate biometrics appointment",
-        category: "Appointment",
-        remaining: "18d",
-      },
+      demoDeadline(
+        now,
+        "submission",
+        12,
+        "File apostilled birth certificate",
+        "Submission",
+      ),
+      demoDeadline(
+        now,
+        "appointment",
+        18,
+        "Consulate biometrics appointment",
+        "Appointment",
+      ),
     ],
     documentsAttention: 2,
   };

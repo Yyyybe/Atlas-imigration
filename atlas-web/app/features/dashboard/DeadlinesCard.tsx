@@ -29,14 +29,14 @@ export function DeadlinesCard({ deadlines }: DeadlinesCardProps) {
             key={item.id}
             className="flex items-center gap-3 rounded-[1.15rem] bg-[var(--atlas-mist)] px-3 py-3"
           >
-            <div className="w-12 text-center">
+            <time dateTime={item.isoDate} className="w-12 text-center">
               <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--atlas-muted)]">
                 {item.month}
               </p>
               <p className="text-lg font-semibold text-[var(--atlas-navy)]">
                 {item.day}
               </p>
-            </div>
+            </time>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-[var(--atlas-navy)]">
                 {item.title}

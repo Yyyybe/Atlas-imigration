@@ -67,6 +67,10 @@ export function ProgressCard({ progress }: ProgressCardProps) {
       <div
         className="mt-6 flex gap-1.5"
         aria-label={`Stage ${progress.stagesDone} of ${progress.stagesTotal}`}
+        role="progressbar"
+        aria-valuemin={0}
+        aria-valuemax={progress.stagesTotal}
+        aria-valuenow={progress.stagesDone}
       >
         {Array.from({ length: progress.stagesTotal }, (_, index) => (
           <span

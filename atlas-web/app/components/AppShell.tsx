@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/app/components/Button";
 import {
   AdvisorIcon,
@@ -50,6 +50,60 @@ export function AppShell({
 }: AppShellProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const drawerRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const initials = userName
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const previousOverflow = document.body.style.overflow;
+    const drawer = drawerRef.current;
+
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab" || !drawer) return;
+
+      const focusable = Array.from(
+        drawer.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      const first = focusable[0];
+      const last = focusable.at(-1);
+
+      if (!first || !last) return;
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+      previousFocus?.focus();
+    };
+  }, [open]);
 
   return (
     <div className="min-h-screen bg-[var(--atlas-bg)] text-[var(--atlas-ink)]">
@@ -63,6 +117,9 @@ export function AppShell({
       ) : null}
 
       <aside
+        ref={drawerRef}
+        id="primary-navigation"
+        aria-label="Primary navigation"
         className={`fixed inset-y-0 left-0 z-40 w-[16.5rem] flex-col border-r border-[var(--atlas-line)] bg-white px-4 py-5 lg:flex ${
           open ? "flex" : "hidden"
         }`}
@@ -77,6 +134,7 @@ export function AppShell({
             </span>
           </div>
           <button
+            ref={closeButtonRef}
             type="button"
             className="rounded-full p-2 text-[var(--atlas-navy)] lg:hidden"
             onClick={() => setOpen(false)}
@@ -115,23 +173,25 @@ export function AppShell({
         </nav>
 
         <div className="mt-4 space-y-1 border-t border-[var(--atlas-line)] pt-4">
-          <Link
-            href="/guides"
-            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--atlas-muted)] hover:bg-[var(--atlas-mist)] hover:text-[var(--atlas-navy)]"
+          <div
+            aria-disabled="true"
+            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--atlas-muted)]"
           >
             <AdvisorIcon className="h-5 w-5" />
-            Talk to an advisor
-          </Link>
-          <Link
-            href="/guides"
-            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--atlas-muted)] hover:bg-[var(--atlas-mist)] hover:text-[var(--atlas-navy)]"
+            <span className="flex-1">Advisor</span>
+            <span className="text-xs">Coming soon</span>
+          </div>
+          <div
+            aria-disabled="true"
+            className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--atlas-muted)]"
           >
             <SettingsIcon className="h-5 w-5" />
-            Settings
-          </Link>
+            <span className="flex-1">Settings</span>
+            <span className="text-xs">Coming soon</span>
+          </div>
           <div className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--atlas-navy-soft)] text-sm font-semibold text-[var(--atlas-navy)]">
-              JA
+              {initials || "A"}
             </span>
             <div>
               <p className="text-sm font-semibold text-[var(--atlas-navy)]">
@@ -153,6 +213,8 @@ export function AppShell({
                   className="rounded-full p-2 text-[var(--atlas-navy)] hover:bg-white"
                   onClick={() => setOpen(true)}
                   aria-label="Open navigation"
+                  aria-controls="primary-navigation"
+                  aria-expanded={open}
                 >
                   <MenuIcon className="h-5 w-5" />
                 </button>
@@ -177,13 +239,19 @@ export function AppShell({
             <div className="flex shrink-0 items-center gap-2 pt-1">
               <button
                 type="button"
-                className="hidden rounded-full p-2.5 text-[var(--atlas-navy)] hover:bg-white sm:inline-flex"
-                aria-label="Notifications"
+                className="hidden cursor-not-allowed rounded-full p-2.5 text-[var(--atlas-navy)] opacity-60 sm:inline-flex"
+                aria-label="Notifications coming soon"
+                disabled
               >
                 <BellIcon className="h-5 w-5" />
               </button>
-              <Button variant="secondary" icon={<AdvisorIcon className="h-4 w-4" />}>
-                Ask an advisor
+              <Button
+                variant="secondary"
+                icon={<AdvisorIcon className="h-4 w-4" />}
+                disabled
+                title="Advisor support is not available in this preview"
+              >
+                Advisor coming soon
               </Button>
             </div>
           </div>
@@ -195,6 +263,7 @@ export function AppShell({
       <nav
         aria-label="Mobile"
         className="fixed inset-x-0 bottom-0 z-30 border-t border-[var(--atlas-line)] bg-white/95 px-2 py-2 backdrop-blur lg:hidden"
+        style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
       >
         <ul className="grid grid-cols-5 gap-1">
           {NAV.map((item) => {

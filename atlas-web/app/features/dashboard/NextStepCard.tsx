@@ -25,7 +25,9 @@ export function NextStepCard({ nextStep, source }: NextStepCardProps) {
           </h2>
           <p className="mt-1 text-sm text-[var(--atlas-muted)]">
             {nextStep.context}
-            {source === "api" ? " · Live from Atlas Core" : ""}
+            {source === "api"
+              ? " · Live next step from Atlas Core"
+              : " · Sample task"}
           </p>
           <div className="mt-4 flex flex-col gap-2 text-sm text-[var(--atlas-muted)] sm:flex-row sm:gap-6">
             <p className="inline-flex items-center gap-2">

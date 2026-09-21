@@ -35,7 +35,10 @@ export async function getNextStep(
   request: JourneyRequest,
 ): Promise<JourneyResponse | null> {
   try {
-    const response = await fetch(`${CORE_URL}/api/v1/journeys/next-step`, {
+    // Atlas Core currently exposes this route without the RFC-008 /api/v1
+    // prefix. Keep the transport adapter aligned with the deployed contract;
+    // versioning can be introduced in the backend as a separate change.
+    const response = await fetch(`${CORE_URL}/journeys/next-step`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(request),
