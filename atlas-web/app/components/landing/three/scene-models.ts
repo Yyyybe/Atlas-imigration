@@ -209,32 +209,169 @@ export function createPermitModel() {
   return permit;
 }
 
+function createWingGeometry(
+  length: number,
+  span: number,
+  sweep: number,
+  thickness: number,
+) {
+  const shape = new THREE.Shape();
+  const rootFront = length * 0.48;
+  const rootBack = -length * 0.52;
+  const tipFront = rootFront - sweep;
+  const tipBack = rootBack - sweep * 0.48;
+  const rootGap = span * 0.075;
+
+  shape.moveTo(rootFront, rootGap);
+  shape.lineTo(tipFront, span);
+  shape.lineTo(tipBack, span);
+  shape.lineTo(rootBack, rootGap);
+  shape.lineTo(rootBack, -rootGap);
+  shape.lineTo(tipBack, -span);
+  shape.lineTo(tipFront, -span);
+  shape.lineTo(rootFront, -rootGap);
+  shape.closePath();
+
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    depth: thickness,
+    bevelEnabled: true,
+    bevelSegments: 2,
+    bevelSize: Math.min(0.012, thickness * 0.3),
+    bevelThickness: Math.min(0.008, thickness * 0.22),
+    curveSegments: 2,
+  });
+  geometry.translate(0, 0, -thickness / 2);
+  geometry.rotateX(-Math.PI / 2);
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
 export function createAirplaneModel() {
   const airplane = new THREE.Group();
   airplane.name = "airplane";
-  const white = material(0xf8fbff, { roughness: 0.24, metalness: 0.12 });
+  const white = material(0xf8fbff, { roughness: 0.2, metalness: 0.16 });
+  const blue = material(0x2f76ad, { roughness: 0.24, metalness: 0.16 });
+  const navy = material(0x102e45, { roughness: 0.3, metalness: 0.2 });
+  const warmWhite = material(0xe8f2f8, {
+    roughness: 0.34,
+    metalness: 0.08,
+  });
 
-  const body = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.08, 0.56, 5, 14),
+  const fuselage = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.09, 0.067, 0.78, 24, 3),
     white,
   );
-  body.rotation.z = Math.PI / 2;
-  airplane.add(body);
+  fuselage.rotation.z = -Math.PI / 2;
+  airplane.add(fuselage);
 
-  const wings = roundedBox(0.42, 0.045, 0.82, 0.025, white);
-  wings.position.x = 0.03;
+  const nose = new THREE.Mesh(new THREE.SphereGeometry(0.092, 24, 16), white);
+  nose.scale.set(1.55, 1, 1);
+  nose.position.x = 0.42;
+  airplane.add(nose);
+
+  const tailCone = new THREE.Mesh(
+    new THREE.ConeGeometry(0.078, 0.25, 24, 2),
+    warmWhite,
+  );
+  tailCone.rotation.z = Math.PI / 2;
+  tailCone.position.x = -0.505;
+  airplane.add(tailCone);
+
+  const wings = new THREE.Mesh(
+    createWingGeometry(0.34, 0.66, 0.2, 0.045),
+    white,
+  );
+  wings.position.set(0.025, -0.006, 0);
   airplane.add(wings);
 
-  const tailWings = roundedBox(0.2, 0.032, 0.36, 0.018, white);
-  tailWings.position.x = -0.28;
+  const wingAccent = new THREE.Mesh(
+    createWingGeometry(0.16, 0.62, 0.12, 0.049),
+    blue,
+  );
+  wingAccent.position.set(-0.16, -0.008, 0);
+  airplane.add(wingAccent);
+
+  const tailWings = new THREE.Mesh(
+    createWingGeometry(0.19, 0.255, 0.075, 0.032),
+    warmWhite,
+  );
+  tailWings.position.set(-0.37, 0.018, 0);
   airplane.add(tailWings);
 
-  const fin = roundedBox(0.2, 0.25, 0.035, 0.018, white);
-  fin.position.set(-0.29, 0.115, 0);
-  fin.rotation.z = 0.3;
+  const finShape = new THREE.Shape();
+  finShape.moveTo(-0.49, 0.035);
+  finShape.lineTo(-0.39, 0.29);
+  finShape.lineTo(-0.22, 0.04);
+  finShape.closePath();
+  const finGeometry = new THREE.ExtrudeGeometry(finShape, {
+    depth: 0.035,
+    bevelEnabled: true,
+    bevelSegments: 2,
+    bevelSize: 0.009,
+    bevelThickness: 0.006,
+  });
+  finGeometry.translate(0, 0, -0.0175);
+  const fin = new THREE.Mesh(finGeometry, blue);
   airplane.add(fin);
 
-  airplane.scale.setScalar(0.48);
+  [-0.29, 0.29].forEach((side) => {
+    const engine = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.052, 0.043, 0.2, 18, 1),
+      blue,
+    );
+    engine.rotation.z = -Math.PI / 2;
+    engine.position.set(0.02, -0.085, side);
+    airplane.add(engine);
+
+    const intake = new THREE.Mesh(new THREE.CircleGeometry(0.039, 18), navy);
+    intake.rotation.y = Math.PI / 2;
+    intake.position.set(0.122, -0.085, side);
+    airplane.add(intake);
+  });
+
+  const windowMaterial = material(0x173b56, {
+    roughness: 0.18,
+    metalness: 0.34,
+  });
+  [-0.2, -0.09, 0.02, 0.13, 0.24].forEach((x) => {
+    [-1, 1].forEach((side) => {
+      const window = new THREE.Mesh(
+        new THREE.SphereGeometry(0.014, 10, 8),
+        windowMaterial,
+      );
+      window.scale.set(1.25, 0.74, 0.46);
+      window.position.set(x, 0.044, side * 0.078);
+      airplane.add(window);
+    });
+  });
+
+  const cockpit = new THREE.Mesh(
+    new THREE.SphereGeometry(0.046, 16, 10),
+    navy,
+  );
+  cockpit.scale.set(1.15, 0.48, 0.8);
+  cockpit.position.set(0.39, 0.056, 0);
+  airplane.add(cockpit);
+
+  const navigationLights = [
+    { color: 0xf15a64, z: 0.66 },
+    { color: 0x62d5a4, z: -0.66 },
+  ];
+  navigationLights.forEach(({ color, z }) => {
+    const light = new THREE.Mesh(
+      new THREE.SphereGeometry(0.018, 12, 8),
+      new THREE.MeshStandardMaterial({
+        color,
+        emissive: color,
+        emissiveIntensity: 1.8,
+        roughness: 0.22,
+      }),
+    );
+    light.position.set(-0.18, 0, z);
+    airplane.add(light);
+  });
+
+  airplane.scale.setScalar(0.7);
   return airplane;
 }
 

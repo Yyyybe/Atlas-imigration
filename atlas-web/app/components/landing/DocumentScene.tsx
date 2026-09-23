@@ -155,60 +155,93 @@ export function DocumentScene({ activeStep }: DocumentSceneProps) {
       if (!running) return;
       const delta = Math.min(clock.getDelta(), 1 / 30);
       const elapsed = clock.elapsedTime;
-      const ease = reducedMotion ? 1 : 1 - Math.exp(-delta * 5.8);
+      const ease = reducedMotion ? 1 : 1 - Math.exp(-delta * 4.8);
       const poseIndex = Math.min(2, Math.max(0, activeStepRef.current));
       pointer.lerp(pointerTarget, ease);
 
+      const stageRoll = reducedMotion ? 0 : Math.sin(elapsed * 0.31) * 0.018;
+      const stageYaw = reducedMotion
+        ? 0
+        : Math.sin(elapsed * 0.24 + 0.7) * 0.045;
+      const stageLift = reducedMotion
+        ? 0
+        : Math.sin(elapsed * 0.38 + 1.1) * 0.045;
+
       presentation.rotation.y = THREE.MathUtils.lerp(
         presentation.rotation.y,
-        pointer.x * 0.08,
+        pointer.x * 0.08 + stageYaw,
         ease,
       );
       presentation.rotation.x = THREE.MathUtils.lerp(
         presentation.rotation.x,
-        -pointer.y * 0.055,
+        -pointer.y * 0.055 + stageRoll,
+        ease,
+      );
+      presentation.rotation.z = THREE.MathUtils.lerp(
+        presentation.rotation.z,
+        reducedMotion ? 0 : Math.sin(elapsed * 0.2 + 2.1) * 0.012,
+        ease,
+      );
+      presentation.position.y = THREE.MathUtils.lerp(
+        presentation.position.y,
+        stageLift,
         ease,
       );
 
       documents.forEach((documentModel, index) => {
         const pose = POSES[poseIndex][index];
-        const float = reducedMotion
-          ? 0
-          : Math.sin(elapsed * (0.52 + index * 0.07) + index * 1.6) * 0.045;
+        const motion = reducedMotion ? 0 : 1;
+        const primaryPhase =
+          elapsed * (0.7 + index * 0.085) + index * 2.05;
+        const secondaryPhase =
+          elapsed * (0.43 + index * 0.055) + index * 1.18 + 0.6;
+        const floatY =
+          Math.sin(primaryPhase) * (0.105 + index * 0.012) * motion;
+        const driftX =
+          Math.cos(secondaryPhase) * (0.055 + index * 0.009) * motion;
+        const driftZ =
+          Math.sin(elapsed * (0.56 + index * 0.045) + index * 1.4) *
+          (0.07 + index * 0.008) *
+          motion;
+        const tiltX = Math.sin(secondaryPhase + 0.5) * 0.035 * motion;
+        const tiltY = Math.cos(primaryPhase * 0.72) * 0.055 * motion;
+        const tiltZ = Math.sin(primaryPhase * 0.61 + 1.2) * 0.045 * motion;
+        const breathe =
+          1 + Math.sin(elapsed * 0.58 + index * 1.7) * 0.012 * motion;
 
         documentModel.position.x = THREE.MathUtils.lerp(
           documentModel.position.x,
-          pose.position[0],
+          pose.position[0] + driftX,
           ease,
         );
         documentModel.position.y = THREE.MathUtils.lerp(
           documentModel.position.y,
-          pose.position[1] + float,
+          pose.position[1] + floatY,
           ease,
         );
         documentModel.position.z = THREE.MathUtils.lerp(
           documentModel.position.z,
-          pose.position[2],
+          pose.position[2] + driftZ,
           ease,
         );
         documentModel.rotation.x = THREE.MathUtils.lerp(
           documentModel.rotation.x,
-          pose.rotation[0],
+          pose.rotation[0] + tiltX,
           ease,
         );
         documentModel.rotation.y = THREE.MathUtils.lerp(
           documentModel.rotation.y,
-          pose.rotation[1],
+          pose.rotation[1] + tiltY,
           ease,
         );
         documentModel.rotation.z = THREE.MathUtils.lerp(
           documentModel.rotation.z,
-          pose.rotation[2],
+          pose.rotation[2] + tiltZ,
           ease,
         );
         const nextScale = THREE.MathUtils.lerp(
           documentModel.scale.x,
-          pose.scale,
+          pose.scale * breathe,
           ease,
         );
         documentModel.scale.setScalar(nextScale);
