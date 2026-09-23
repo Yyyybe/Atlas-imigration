@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { GlobeScene } from "@/app/components/landing/GlobeScene";
+import { DocumentScene } from "@/app/components/landing/DocumentScene";
 import { useLocale } from "@/app/i18n/LocaleProvider";
 
 export function LandingJourney() {
@@ -54,7 +54,7 @@ export function LandingJourney() {
         >
           <div className="story-orbit story-orbit-one" />
           <div className="story-orbit story-orbit-two" />
-          <GlobeScene />
+          <DocumentScene activeStep={activeStep} />
 
           <div className="story-next-step">
             <span>{t("story.next.label")}</span>

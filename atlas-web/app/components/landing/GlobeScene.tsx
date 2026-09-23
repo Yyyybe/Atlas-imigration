@@ -2,175 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/examples/jsm/geometries/RoundedBoxGeometry.js";
-
-const SKY = 0x8fc5ff;
-const PAPER = 0xfff8e8;
-const GOLD = 0xd9b56d;
-
-function physical(
-  color: number,
-  options: Partial<THREE.MeshPhysicalMaterialParameters> = {},
-) {
-  return new THREE.MeshPhysicalMaterial({
-    color,
-    roughness: 0.34,
-    metalness: 0.05,
-    clearcoat: 0.35,
-    clearcoatRoughness: 0.28,
-    ...options,
-  });
-}
-
-function addPassport() {
-  const group = new THREE.Group();
-  const cover = new THREE.Mesh(
-    new RoundedBoxGeometry(1.18, 1.62, 0.14, 5, 0.08),
-    physical(0x183e59, { roughness: 0.28, clearcoat: 0.55 }),
-  );
-  cover.castShadow = true;
-  group.add(cover);
-
-  const rim = new THREE.Mesh(
-    new THREE.TorusGeometry(0.24, 0.016, 12, 48),
-    physical(GOLD, { metalness: 0.55, roughness: 0.22 }),
-  );
-  rim.position.set(0, 0.12, 0.082);
-  group.add(rim);
-
-  const meridian = new THREE.Mesh(
-    new THREE.TorusGeometry(0.145, 0.011, 10, 36),
-    physical(GOLD, { metalness: 0.55 }),
-  );
-  meridian.position.copy(rim.position);
-  meridian.scale.x = 0.46;
-  group.add(meridian);
-
-  for (const y of [-0.42, -0.5]) {
-    const line = new THREE.Mesh(
-      new RoundedBoxGeometry(y === -0.42 ? 0.52 : 0.36, 0.018, 0.012, 2, 0.008),
-      physical(GOLD, { metalness: 0.48 }),
-    );
-    line.position.set(0, y, 0.082);
-    group.add(line);
-  }
-
-  group.rotation.set(-0.16, -0.3, 0.12);
-  return group;
-}
-
-function addCertificate() {
-  const group = new THREE.Group();
-  const paper = new THREE.Mesh(
-    new RoundedBoxGeometry(1.35, 1.72, 0.085, 5, 0.07),
-    physical(PAPER, { roughness: 0.56, clearcoat: 0.08 }),
-  );
-  paper.castShadow = true;
-  group.add(paper);
-
-  const ink = physical(0x587086, { roughness: 0.64 });
-  [0.38, 0.17, -0.05, -0.27].forEach((y, index) => {
-    const line = new THREE.Mesh(
-      new RoundedBoxGeometry(index === 0 ? 0.72 : 0.9, 0.022, 0.012, 2, 0.008),
-      ink,
-    );
-    line.position.set(index === 0 ? -0.13 : 0, y, 0.052);
-    group.add(line);
-  });
-
-  const seal = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.17, 0.17, 0.025, 48),
-    physical(0xc96464, { roughness: 0.3, clearcoat: 0.45 }),
-  );
-  seal.rotation.x = Math.PI / 2;
-  seal.position.set(0.38, -0.57, 0.065);
-  group.add(seal);
-
-  group.rotation.set(0.15, 0.26, -0.12);
-  return group;
-}
-
-function addPermitCard() {
-  const group = new THREE.Group();
-  const card = new THREE.Mesh(
-    new RoundedBoxGeometry(1.55, 0.98, 0.1, 5, 0.1),
-    physical(0xc8e5f7, {
-      roughness: 0.25,
-      clearcoat: 0.72,
-      transmission: 0.08,
-    }),
-  );
-  card.castShadow = true;
-  group.add(card);
-
-  const portrait = new THREE.Mesh(
-    new RoundedBoxGeometry(0.35, 0.45, 0.018, 4, 0.045),
-    physical(0x6d93ad, { roughness: 0.48 }),
-  );
-  portrait.position.set(-0.43, 0.06, 0.065);
-  group.add(portrait);
-
-  const chip = new THREE.Mesh(
-    new RoundedBoxGeometry(0.25, 0.18, 0.02, 3, 0.035),
-    physical(GOLD, { metalness: 0.48, roughness: 0.25 }),
-  );
-  chip.position.set(-0.48, -0.3, 0.065);
-  group.add(chip);
-
-  const ink = physical(0x38617c, { roughness: 0.55 });
-  [0.2, 0.04, -0.12].forEach((y, index) => {
-    const line = new THREE.Mesh(
-      new RoundedBoxGeometry(index === 0 ? 0.52 : 0.63, 0.024, 0.012, 2, 0.009),
-      ink,
-    );
-    line.position.set(0.32, y, 0.065);
-    group.add(line);
-  });
-
-  group.rotation.set(-0.12, -0.28, 0.08);
-  return group;
-}
-
-function addAirplane() {
-  const airplane = new THREE.Group();
-  const white = physical(0xf8fbff, {
-    metalness: 0.12,
-    roughness: 0.2,
-    clearcoat: 0.8,
-  });
-
-  const body = new THREE.Mesh(
-    new THREE.CapsuleGeometry(0.08, 0.54, 6, 16),
-    white,
-  );
-  body.rotation.z = Math.PI / 2;
-  airplane.add(body);
-
-  const wingGeometry = new THREE.BufferGeometry();
-  wingGeometry.setAttribute(
-    "position",
-    new THREE.Float32BufferAttribute(
-      [-0.16, 0, 0, 0.12, 0.44, 0, 0.2, 0, 0, 0.12, -0.44, 0],
-      3,
-    ),
-  );
-  wingGeometry.setIndex([0, 1, 2, 0, 2, 3]);
-  wingGeometry.computeVertexNormals();
-  const wings = new THREE.Mesh(wingGeometry, white);
-  wings.rotation.y = -0.08;
-  airplane.add(wings);
-
-  const tail = new THREE.Mesh(
-    new THREE.BoxGeometry(0.18, 0.24, 0.035),
-    white,
-  );
-  tail.position.x = -0.28;
-  tail.rotation.z = 0.32;
-  airplane.add(tail);
-
-  airplane.scale.setScalar(0.48);
-  return airplane;
-}
+import {
+  addStudioLights,
+  createAirplaneModel,
+  createCertificateModel,
+  createPassportModel,
+  createPermitModel,
+  createRenderer,
+  disposeScene,
+} from "@/app/components/landing/three/scene-models";
 
 export function GlobeScene() {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -186,106 +26,112 @@ export function GlobeScene() {
     let renderer: THREE.WebGLRenderer;
 
     try {
-      renderer = new THREE.WebGLRenderer({
-        antialias: true,
-        alpha: true,
-        powerPreference: "high-performance",
-      });
+      renderer = createRenderer(host);
     } catch {
       setFallback(true);
       return;
     }
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.18;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-    renderer.domElement.className = "landing-three-canvas";
-    host.appendChild(renderer.domElement);
-
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
-    camera.position.set(0, 0.05, 8.4);
+    const camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
+    camera.position.set(0, 0.05, 8.6);
 
-    const root = new THREE.Group();
-    scene.add(root);
+    const presentation = new THREE.Group();
+    presentation.rotation.x = -0.035;
+    scene.add(presentation);
 
-    const globe = new THREE.Group();
-    const sphere = new THREE.Mesh(
-      new THREE.SphereGeometry(1.72, 96, 64),
-      physical(0x2d6da3, {
-        roughness: 0.2,
-        clearcoat: 0.68,
-        clearcoatRoughness: 0.16,
-      }),
+    const earthAxis = new THREE.Group();
+    earthAxis.rotation.z = THREE.MathUtils.degToRad(-23.4);
+    presentation.add(earthAxis);
+
+    const earthSpin = new THREE.Group();
+    earthSpin.rotation.y = -0.5;
+    earthAxis.add(earthSpin);
+
+    const earthMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      roughness: 0.62,
+      metalness: 0.02,
+    });
+    const earth = new THREE.Mesh(
+      new THREE.SphereGeometry(1.7, 64, 48),
+      earthMaterial,
     );
-    sphere.castShadow = true;
-    globe.add(sphere);
+    earthSpin.add(earth);
+
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load(
+      "/earth-texture.png",
+      (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        texture.anisotropy = Math.min(4, renderer.capabilities.getMaxAnisotropy());
+        earthMaterial.map = texture;
+        earthMaterial.needsUpdate = true;
+      },
+      undefined,
+      () => {
+        earthMaterial.color.setHex(0x347caf);
+      },
+    );
 
     const grid = new THREE.Mesh(
-      new THREE.SphereGeometry(1.735, 24, 16),
+      new THREE.SphereGeometry(1.712, 24, 16),
       new THREE.MeshBasicMaterial({
-        color: 0xb9dcff,
+        color: 0xd9edff,
         wireframe: true,
         transparent: true,
-        opacity: 0.16,
+        opacity: 0.08,
       }),
     );
-    globe.add(grid);
+    earthSpin.add(grid);
 
     const atmosphere = new THREE.Mesh(
-      new THREE.SphereGeometry(1.86, 64, 48),
+      new THREE.SphereGeometry(1.82, 48, 32),
       new THREE.MeshBasicMaterial({
-        color: SKY,
+        color: 0x8fc5ff,
         transparent: true,
-        opacity: 0.09,
+        opacity: 0.11,
         side: THREE.BackSide,
         blending: THREE.AdditiveBlending,
       }),
     );
-    globe.add(atmosphere);
-    globe.rotation.z = -0.16;
-    root.add(globe);
+    earthAxis.add(atmosphere);
 
-    const orbit = new THREE.Mesh(
-      new THREE.TorusGeometry(2.34, 0.012, 12, 160),
+    const flightOrbit = new THREE.Group();
+    flightOrbit.rotation.set(1.02, 0.14, -0.3);
+    presentation.add(flightOrbit);
+
+    const orbitLine = new THREE.Mesh(
+      new THREE.TorusGeometry(2.35, 0.011, 8, 128),
       new THREE.MeshBasicMaterial({
-        color: 0xd9edff,
+        color: 0xe6f4ff,
         transparent: true,
-        opacity: 0.45,
+        opacity: 0.38,
       }),
     );
-    orbit.rotation.set(1.12, 0.1, -0.3);
-    root.add(orbit);
+    flightOrbit.add(orbitLine);
 
-    const passport = addPassport();
-    passport.position.set(2.2, 1.45, 0.32);
-    root.add(passport);
+    const airplane = createAirplaneModel();
+    airplane.position.x = 2.35;
+    airplane.rotation.z = Math.PI / 2;
+    flightOrbit.add(airplane);
 
-    const certificate = addCertificate();
-    certificate.position.set(-2.15, -1.42, 0.48);
-    root.add(certificate);
+    const passport = createPassportModel();
+    passport.position.set(2.12, 1.43, 0.35);
+    passport.rotation.set(-0.15, -0.28, 0.11);
+    presentation.add(passport);
 
-    const permit = addPermitCard();
-    permit.position.set(2.18, -1.62, 0.68);
-    root.add(permit);
+    const certificate = createCertificateModel();
+    certificate.position.set(-2.14, -1.3, 0.48);
+    certificate.rotation.set(0.14, 0.24, -0.11);
+    presentation.add(certificate);
 
-    const airplane = addAirplane();
-    root.add(airplane);
+    const permit = createPermitModel();
+    permit.position.set(2.04, -1.52, 0.7);
+    permit.rotation.set(-0.1, -0.25, 0.07);
+    presentation.add(permit);
 
-    scene.add(new THREE.HemisphereLight(0xe9f5ff, 0x10243e, 2.35));
-    const key = new THREE.DirectionalLight(0xffffff, 4.6);
-    key.position.set(4, 5, 7);
-    key.castShadow = true;
-    scene.add(key);
-    const rim = new THREE.PointLight(SKY, 12, 16);
-    rim.position.set(-4, 1, 4);
-    scene.add(rim);
-    const warm = new THREE.PointLight(0xffdfad, 5, 12);
-    warm.position.set(3, -3, 3);
-    scene.add(warm);
+    addStudioLights(scene, true);
 
     const pointer = new THREE.Vector2();
     const pointerTarget = new THREE.Vector2();
@@ -302,8 +148,8 @@ export function GlobeScene() {
       camera.updateProjectionMatrix();
     };
 
-    const observer = new ResizeObserver(resize);
-    observer.observe(host);
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(host);
     resize();
 
     const onPointerMove = (event: PointerEvent) => {
@@ -319,42 +165,35 @@ export function GlobeScene() {
 
     const render = () => {
       if (!running) return;
-      const delta = Math.min(clock.getDelta(), 0.05);
+      const delta = Math.min(clock.getDelta(), 1 / 30);
       const elapsed = clock.elapsedTime;
-      const ease = 1 - Math.exp(-delta * 7);
+      const ease = 1 - Math.exp(-delta * 6.5);
       pointer.lerp(pointerTarget, ease);
 
-      root.rotation.y = THREE.MathUtils.lerp(
-        root.rotation.y,
-        pointer.x * 0.12,
+      presentation.rotation.y = THREE.MathUtils.lerp(
+        presentation.rotation.y,
+        pointer.x * 0.075,
         ease,
       );
-      root.rotation.x = THREE.MathUtils.lerp(
-        root.rotation.x,
-        -pointer.y * 0.08,
+      presentation.rotation.x = THREE.MathUtils.lerp(
+        presentation.rotation.x,
+        -0.035 - pointer.y * 0.055,
         ease,
       );
 
       if (!reducedMotion) {
-        globe.rotation.y += delta * 0.17;
-        passport.position.y = 1.45 + Math.sin(elapsed * 0.72) * 0.12;
-        passport.rotation.z = 0.12 + Math.sin(elapsed * 0.46) * 0.035;
-        certificate.position.y = -1.42 + Math.sin(elapsed * 0.61 + 1.8) * 0.11;
-        permit.position.y = -1.62 + Math.sin(elapsed * 0.78 + 3.1) * 0.09;
+        earthSpin.rotation.y += delta * 0.2;
+        flightOrbit.rotation.z -= delta * 0.33;
+        airplane.rotation.x = Math.sin(elapsed * 0.8) * 0.06;
 
-        const flight = elapsed * 0.34;
-        airplane.position.set(
-          Math.cos(flight) * 2.34,
-          Math.sin(flight) * 1.02,
-          Math.sin(flight) * 1.12 + 0.25,
-        );
-        airplane.rotation.set(
-          0.28 * Math.sin(flight),
-          -flight + Math.PI / 2,
-          0.16,
-        );
-      } else {
-        airplane.position.set(1.8, 0.55, 1.4);
+        passport.position.y = 1.43 + Math.sin(elapsed * 0.68) * 0.085;
+        passport.rotation.z = 0.11 + Math.sin(elapsed * 0.42) * 0.025;
+        certificate.position.y =
+          -1.3 + Math.sin(elapsed * 0.58 + 1.7) * 0.08;
+        certificate.rotation.z =
+          -0.11 + Math.sin(elapsed * 0.39 + 0.8) * 0.022;
+        permit.position.y =
+          -1.52 + Math.sin(elapsed * 0.72 + 3.1) * 0.075;
       }
 
       renderer.render(scene, camera);
@@ -378,7 +217,7 @@ export function GlobeScene() {
         inViewport = entry?.isIntersecting ?? false;
         syncAnimation();
       },
-      { rootMargin: "15% 0px", threshold: 0.01 },
+      { rootMargin: "12% 0px", threshold: 0.01 },
     );
     visibilityObserver.observe(host);
 
@@ -388,21 +227,12 @@ export function GlobeScene() {
     return () => {
       running = false;
       cancelAnimationFrame(animationFrame);
-      observer.disconnect();
+      resizeObserver.disconnect();
       visibilityObserver.disconnect();
       host.removeEventListener("pointermove", onPointerMove);
       host.removeEventListener("pointerleave", resetPointer);
       document.removeEventListener("visibilitychange", onVisibility);
-      scene.traverse((object) => {
-        if (!(object instanceof THREE.Mesh)) return;
-        object.geometry.dispose();
-        const materials = Array.isArray(object.material)
-          ? object.material
-          : [object.material];
-        materials.forEach((material) => material.dispose());
-      });
-      renderer.dispose();
-      renderer.domElement.remove();
+      disposeScene(scene, renderer);
     };
   }, []);
 
