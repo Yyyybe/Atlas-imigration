@@ -1,5 +1,4 @@
 import { AppShell } from "@/app/components/AppShell";
-import { formatLongDate, greetingFor } from "@/app/lib/datetime";
 import { fixtureOverview } from "@/app/lib/overview-view-model";
 
 export default function ProductLayout({
@@ -14,8 +13,6 @@ export default function ProductLayout({
       userName={overview.user.fullName}
       plan={overview.user.plan}
       documentsAttention={overview.documentsAttention}
-      dateLabel={formatLongDate()}
-      greeting={`${greetingFor()}, ${overview.user.firstName}`}
       origin={overview.corridor.origin}
       destination={overview.corridor.destination}
       goal={overview.corridor.goal}

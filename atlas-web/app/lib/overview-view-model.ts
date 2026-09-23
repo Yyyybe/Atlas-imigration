@@ -7,6 +7,7 @@ export type OverviewAlert = {
   tone: AlertTone;
   title: string;
   body: string;
+  isoDate?: string;
 };
 
 export type OverviewDeadline = {
@@ -41,6 +42,8 @@ export type OverviewModel = {
     stagesTotal: number;
     started: string;
     estimatedPermit: string;
+    startedIso: string;
+    estimatedPermitIso: string;
   };
   nextStep: {
     title: string;
@@ -186,6 +189,8 @@ export function fixtureOverview(now = new Date()): OverviewModel {
       stagesTotal: 6,
       started: monthYear(addMonths(now, -6)),
       estimatedPermit: monthYear(addMonths(now, 3)),
+      startedIso: addMonths(now, -6).toISOString(),
+      estimatedPermitIso: addMonths(now, 3).toISOString(),
     },
     nextStep: FIXTURE_NEXT_STEP,
     alerts: [
@@ -194,6 +199,7 @@ export function fixtureOverview(now = new Date()): OverviewModel {
         tone: "warning",
         title: `Sample certificate expiry · ${shortDate(certificateExpiry)}`,
         body: "This is demonstration data. In the real journey, Atlas should show the official validity rule, its source, and the action required before a document expires.",
+        isoDate: certificateExpiry.toISOString(),
       },
       {
         id: "visa-fee",

@@ -1,27 +1,19 @@
+"use client";
+
 import Link from "next/link";
 import { GlobeScene } from "@/app/components/landing/GlobeScene";
 import { LandingHeader } from "@/app/components/landing/LandingHeader";
 import { LandingJourney } from "@/app/components/landing/LandingJourney";
-
-const TRUST_PILLARS = [
-  {
-    number: "01",
-    title: "Clarity before complexity",
-    body: "The interface prioritizes what you need now, with deeper explanations available when you want them.",
-  },
-  {
-    number: "02",
-    title: "Trust before automation",
-    body: "Atlas is designed to connect important guidance to current official sources and show uncertainty honestly.",
-  },
-  {
-    number: "03",
-    title: "Progress without pressure",
-    body: "No fear, false urgency, or engagement tricks — only useful milestones, reminders, and next actions.",
-  },
-];
+import { useLocale } from "@/app/i18n/LocaleProvider";
 
 export default function LandingPage() {
+  const { t } = useLocale();
+  const trustPillars = [1, 2, 3].map((number) => ({
+    number: `0${number}`,
+    title: t(`trust.${number}.title` as "trust.1.title"),
+    body: t(`trust.${number}.body` as "trust.1.body"),
+  }));
+
   return (
     <main className="atlas-landing">
       <LandingHeader />
@@ -30,16 +22,14 @@ export default function LandingPage() {
         <div className="landing-hero-copy">
           <p className="landing-eyebrow">
             <span aria-hidden="true" />
-            Atlas Immigration
+            {t("hero.eyebrow")}
           </p>
           <h1 id="landing-title">
-            Moving countries is complex.
-            <span>Knowing what comes next shouldn’t be.</span>
+            {t("hero.title.first")}
+            <span>{t("hero.title.second")}</span>
           </h1>
           <p className="landing-hero-intro">
-            Atlas turns scattered requirements, documents, and deadlines into
-            one calm journey — built around your situation and your next
-            meaningful step.
+            {t("hero.intro")}
           </p>
 
           <div className="landing-hero-actions">
@@ -47,30 +37,30 @@ export default function LandingPage() {
               className="landing-button landing-button-primary"
               href="#how-atlas-works"
             >
-              See how Atlas guides you
+              {t("hero.guide")}
               <span aria-hidden="true">↓</span>
             </a>
             <Link
               className="landing-button landing-button-quiet"
               href="/overview"
             >
-              Open product preview
+              {t("hero.preview")}
               <span aria-hidden="true">↗</span>
             </Link>
           </div>
 
           <dl className="landing-hero-principles">
             <div>
-              <dt>Designed for</dt>
-              <dd>Real journeys</dd>
+              <dt>{t("hero.designed")}</dt>
+              <dd>{t("hero.designedValue")}</dd>
             </div>
             <div>
-              <dt>Built around</dt>
-              <dd>Verified guidance</dd>
+              <dt>{t("hero.built")}</dt>
+              <dd>{t("hero.builtValue")}</dd>
             </div>
             <div>
-              <dt>Always answers</dt>
-              <dd>What comes next?</dd>
+              <dt>{t("hero.answers")}</dt>
+              <dd>{t("hero.answersValue")}</dd>
             </div>
           </dl>
         </div>
@@ -78,7 +68,7 @@ export default function LandingPage() {
         <GlobeScene />
 
         <p className="landing-scroll-cue" aria-hidden="true">
-          Scroll to begin
+          {t("hero.scroll")}
           <span />
         </p>
       </section>
@@ -91,16 +81,13 @@ export default function LandingPage() {
         aria-labelledby="trust-title"
       >
         <div className="landing-trust-heading">
-          <p className="landing-section-kicker">Built for trust</p>
-          <h2 id="trust-title">Guidance should make life feel lighter.</h2>
-          <p>
-            Immigration decisions carry real consequences. Atlas is being
-            designed to communicate with restraint, transparency, and respect.
-          </p>
+          <p className="landing-section-kicker">{t("trust.kicker")}</p>
+          <h2 id="trust-title">{t("trust.title")}</h2>
+          <p>{t("trust.body")}</p>
         </div>
 
         <div className="landing-trust-grid">
-          {TRUST_PILLARS.map((pillar) => (
+          {trustPillars.map((pillar) => (
             <article key={pillar.number}>
               <span>{pillar.number}</span>
               <h3>{pillar.title}</h3>
@@ -120,29 +107,26 @@ export default function LandingPage() {
           <span />
         </div>
         <p className="landing-section-kicker">Atlas</p>
-        <h2 id="final-cta-title">Your immigration journey, understood.</h2>
-        <p>
-          Explore the current product preview and see how Atlas keeps progress,
-          tasks, deadlines, and explanations in one calm place.
-        </p>
+        <h2 id="final-cta-title">{t("final.title")}</h2>
+        <p>{t("final.body")}</p>
         <Link
           className="landing-button landing-button-light"
           href="/overview"
         >
-          Explore the dashboard preview
+          {t("final.cta")}
           <span aria-hidden="true">→</span>
         </Link>
       </section>
 
       <footer className="landing-footer">
-        <Link className="landing-brand" href="/" aria-label="Atlas home">
+        <Link className="landing-brand" href="/" aria-label={t("landing.home")}>
           <span className="landing-brand-mark" aria-hidden="true">
             A
           </span>
           <span>Atlas</span>
         </Link>
-        <p>Guiding new beginnings with clarity and care.</p>
-        <span>Product preview · 2026</span>
+        <p>{t("footer.tagline")}</p>
+        <span>{t("footer.preview")}</span>
       </footer>
     </main>
   );

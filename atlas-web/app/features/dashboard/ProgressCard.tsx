@@ -1,4 +1,7 @@
+"use client";
+
 import { Card } from "@/app/components/Card";
+import { useLocale } from "@/app/i18n/LocaleProvider";
 import type { OverviewModel } from "@/app/lib/overview-view-model";
 
 type ProgressCardProps = {
@@ -6,6 +9,7 @@ type ProgressCardProps = {
 };
 
 export function ProgressCard({ progress }: ProgressCardProps) {
+  const { locale, t } = useLocale();
   const radius = 36;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (progress.percent / 100) * circumference;
@@ -18,7 +22,7 @@ export function ProgressCard({ progress }: ProgressCardProps) {
             className="h-full w-full -rotate-90"
             viewBox="0 0 96 96"
             role="img"
-            aria-label={`${progress.percent} percent complete`}
+            aria-label={`${progress.percent} ${t("overview.percentComplete")}`}
           >
             <circle
               cx="48"
@@ -46,7 +50,7 @@ export function ProgressCard({ progress }: ProgressCardProps) {
               {progress.percent}%
             </span>
             <span className="text-[11px] font-medium uppercase tracking-wide text-[var(--atlas-muted)]">
-              complete
+              {t("overview.complete")}
             </span>
           </div>
         </div>
@@ -66,7 +70,7 @@ export function ProgressCard({ progress }: ProgressCardProps) {
 
       <div
         className="mt-6 flex gap-1.5"
-        aria-label={`Stage ${progress.stagesDone} of ${progress.stagesTotal}`}
+        aria-label={`${t("overview.stage")} ${progress.stagesDone} ${t("overview.of")} ${progress.stagesTotal}`}
         role="progressbar"
         aria-valuemin={0}
         aria-valuemax={progress.stagesTotal}
@@ -87,26 +91,32 @@ export function ProgressCard({ progress }: ProgressCardProps) {
       <dl className="mt-6 grid grid-cols-1 gap-4 border-t border-[var(--atlas-line)] pt-5 sm:grid-cols-3">
         <div>
           <dt className="text-xs font-medium uppercase tracking-wide text-[var(--atlas-muted)]">
-            Stages done
+            {t("overview.stagesDone")}
           </dt>
           <dd className="mt-1 text-lg font-semibold text-[var(--atlas-navy)]">
-            {progress.stagesDone} of {progress.stagesTotal}
+            {progress.stagesDone} {t("overview.of")} {progress.stagesTotal}
           </dd>
         </div>
         <div>
           <dt className="text-xs font-medium uppercase tracking-wide text-[var(--atlas-muted)]">
-            Started
+            {t("overview.started")}
           </dt>
           <dd className="mt-1 text-lg font-semibold text-[var(--atlas-navy)]">
-            {progress.started}
+            {new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-GB", {
+              month: "long",
+              year: "numeric",
+            }).format(new Date(progress.startedIso))}
           </dd>
         </div>
         <div>
           <dt className="text-xs font-medium uppercase tracking-wide text-[var(--atlas-muted)]">
-            Estimated permit
+            {t("overview.estimated")}
           </dt>
           <dd className="mt-1 text-lg font-semibold text-[var(--atlas-navy)]">
-            {progress.estimatedPermit}
+            {new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-GB", {
+              month: "long",
+              year: "numeric",
+            }).format(new Date(progress.estimatedPermitIso))}
           </dd>
         </div>
       </dl>

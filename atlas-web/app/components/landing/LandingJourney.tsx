@@ -1,31 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
-const STEPS = [
-  {
-    number: "01",
-    eyebrow: "See the whole picture",
-    title: "A move is never just one form.",
-    body: "Passports, certificates, appointments, translations, fees, and deadlines all depend on one another. Atlas keeps those details inside one understandable journey.",
-  },
-  {
-    number: "02",
-    eyebrow: "Bring order to the details",
-    title: "Every document has a reason and a moment.",
-    body: "Instead of giving you a generic checklist, Atlas is designed to explain what matters now, what comes later, and why each requirement belongs in your path.",
-  },
-  {
-    number: "03",
-    eyebrow: "Keep moving with confidence",
-    title: "One clear next step, without the noise.",
-    body: "Your progress, current task, deadlines, and explanations stay visible. You can return after days or weeks and immediately understand where you are.",
-  },
-];
+import { GlobeScene } from "@/app/components/landing/GlobeScene";
+import { useLocale } from "@/app/i18n/LocaleProvider";
 
 export function LandingJourney() {
+  const { t } = useLocale();
   const [activeStep, setActiveStep] = useState(0);
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
+  const steps = [1, 2, 3].map((number) => ({
+    number: `0${number}`,
+    eyebrow: t(`story.${number}.eyebrow` as "story.1.eyebrow"),
+    title: t(`story.${number}.title` as "story.1.title"),
+    body: t(`story.${number}.body` as "story.1.body"),
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -54,44 +42,33 @@ export function LandingJourney() {
         <div className="landing-story-status" aria-hidden="true">
           <span>0{activeStep + 1}</span>
           <span className="landing-story-status-line">
-            <span style={{ height: `${((activeStep + 1) / STEPS.length) * 100}%` }} />
+            <span style={{ height: `${((activeStep + 1) / steps.length) * 100}%` }} />
           </span>
           <span>03</span>
         </div>
 
-        <div className="landing-story-stage" data-active={activeStep} aria-hidden="true">
+        <div
+          className="landing-story-stage landing-story-stage-3d"
+          data-active={activeStep}
+          aria-hidden="true"
+        >
           <div className="story-orbit story-orbit-one" />
           <div className="story-orbit story-orbit-two" />
-
-          <div className="story-document story-document-passport">
-            <small>Federative Republic</small>
-            <strong>Passport</strong>
-            <span className="story-passport-mark">◎</span>
-          </div>
-          <div className="story-document story-document-certificate">
-            <small>Civil registry</small>
-            <strong>Birth certificate</strong>
-            <span className="story-document-lines" />
-          </div>
-          <div className="story-document story-document-visa">
-            <small>Destination</small>
-            <strong>Residence permit</strong>
-            <span className="story-visa-photo" />
-          </div>
+          <GlobeScene />
 
           <div className="story-next-step">
-            <span>Your next step</span>
-            <strong>Verify your document pathway</strong>
-            <small>Clear reason · official source · expected timing</small>
+            <span>{t("story.next.label")}</span>
+            <strong>{t("story.next.title")}</strong>
+            <small>{t("story.next.meta")}</small>
           </div>
         </div>
       </div>
 
       <div className="landing-story-copy">
-        <p className="landing-section-kicker">How Atlas works</p>
-        <h2>Complexity becomes a journey you can understand.</h2>
+        <p className="landing-section-kicker">{t("story.kicker")}</p>
+        <h2>{t("story.title")}</h2>
 
-        {STEPS.map((step, index) => (
+        {steps.map((step, index) => (
           <article
             className="landing-story-step"
             data-step={index}

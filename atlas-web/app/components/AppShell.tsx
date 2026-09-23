@@ -4,6 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Button } from "@/app/components/Button";
+import { LanguageSwitcher } from "@/app/components/LanguageSwitcher";
+import {
+  useLocale,
+  type TranslationKey,
+} from "@/app/i18n/LocaleProvider";
 import {
   AdvisorIcon,
   BellIcon,
@@ -17,20 +22,23 @@ import {
   SettingsIcon,
 } from "@/app/components/Icons";
 
-const NAV = [
-  { href: "/overview", label: "Overview", icon: OverviewIcon },
-  { href: "/journey", label: "Journey", icon: JourneyIcon },
-  { href: "/documents", label: "Documents", icon: DocumentsIcon, badge: true },
-  { href: "/deadlines", label: "Deadlines", icon: DeadlinesIcon },
-  { href: "/guides", label: "Guides", icon: GuidesIcon },
+const NAV: Array<{
+  href: string;
+  label: TranslationKey;
+  icon: typeof OverviewIcon;
+  badge?: boolean;
+}> = [
+  { href: "/overview", label: "nav.overview", icon: OverviewIcon },
+  { href: "/journey", label: "nav.journey", icon: JourneyIcon },
+  { href: "/documents", label: "nav.documents", icon: DocumentsIcon, badge: true },
+  { href: "/deadlines", label: "nav.deadlines", icon: DeadlinesIcon },
+  { href: "/guides", label: "nav.guides", icon: GuidesIcon },
 ];
 
 type AppShellProps = {
   userName: string;
   plan: string;
   documentsAttention: number;
-  dateLabel: string;
-  greeting: string;
   origin: string;
   destination: string;
   goal: string;
@@ -41,13 +49,12 @@ export function AppShell({
   userName,
   plan,
   documentsAttention,
-  dateLabel,
-  greeting,
   origin,
   destination,
   goal,
   children,
 }: AppShellProps) {
+  const { locale, t } = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const drawerRef = useRef<HTMLElement>(null);
@@ -58,6 +65,25 @@ export function AppShell({
     .slice(0, 2)
     .map((part) => part[0]?.toUpperCase())
     .join("");
+  const now = new Date();
+  const dateLabel = new Intl.DateTimeFormat(
+    locale === "pt" ? "pt-BR" : "en-GB",
+    { weekday: "long", day: "numeric", month: "long" },
+  ).format(now);
+  const greetingLabel =
+    now.getHours() < 12
+      ? t("greeting.morning")
+      : now.getHours() < 18
+        ? t("greeting.afternoon")
+        : t("greeting.evening");
+  const greeting = `${greetingLabel}, ${userName.split(/\s+/)[0] ?? userName}`;
+  const localizedPlan =
+    plan === "Preview workspace" ? t("shell.previewPlan") : plan;
+  const localizedOrigin = origin === "Brazil" ? t("shell.origin") : origin;
+  const localizedDestination =
+    destination === "Barcelona, Spain" ? t("shell.destination") : destination;
+  const localizedGoal =
+    goal === "Residence permit" ? t("shell.goal") : goal;
 
   useEffect(() => {
     if (!open) return;
@@ -111,7 +137,7 @@ export function AppShell({
         <button
           type="button"
           className="fixed inset-0 z-30 bg-[rgba(20,32,54,0.35)] lg:hidden"
-          aria-label="Close menu"
+          aria-label={t("nav.close")}
           onClick={() => setOpen(false)}
         />
       ) : null}
@@ -119,7 +145,7 @@ export function AppShell({
       <aside
         ref={drawerRef}
         id="primary-navigation"
-        aria-label="Primary navigation"
+        aria-label={t("nav.primary")}
         className={`fixed inset-y-0 left-0 z-40 w-[16.5rem] flex-col border-r border-[var(--atlas-line)] bg-white px-4 py-5 lg:flex ${
           open ? "flex" : "hidden"
         }`}
@@ -138,13 +164,13 @@ export function AppShell({
             type="button"
             className="rounded-full p-2 text-[var(--atlas-navy)] lg:hidden"
             onClick={() => setOpen(false)}
-            aria-label="Close navigation"
+            aria-label={t("nav.close")}
           >
             <CloseIcon className="h-5 w-5" />
           </button>
         </div>
 
-        <nav aria-label="Primary" className="flex flex-1 flex-col gap-1">
+        <nav aria-label={t("nav.primary")} className="flex flex-1 flex-col gap-1">
           {NAV.map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
@@ -161,7 +187,7 @@ export function AppShell({
                 aria-current={active ? "page" : undefined}
               >
                 <Icon className="h-5 w-5" />
-                <span className="flex-1">{item.label}</span>
+                <span className="flex-1">{t(item.label)}</span>
                 {item.badge && documentsAttention > 0 ? (
                   <span className="rounded-full bg-[var(--atlas-badge)] px-1.5 text-[11px] font-bold text-white">
                     {documentsAttention}
@@ -178,16 +204,16 @@ export function AppShell({
             className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--atlas-muted)]"
           >
             <AdvisorIcon className="h-5 w-5" />
-            <span className="flex-1">Advisor</span>
-            <span className="text-xs">Coming soon</span>
+            <span className="flex-1">{t("nav.advisor")}</span>
+            <span className="text-xs">{t("nav.comingSoon")}</span>
           </div>
           <div
             aria-disabled="true"
             className="flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-[var(--atlas-muted)]"
           >
             <SettingsIcon className="h-5 w-5" />
-            <span className="flex-1">Settings</span>
-            <span className="text-xs">Coming soon</span>
+            <span className="flex-1">{t("nav.settings")}</span>
+            <span className="text-xs">{t("nav.comingSoon")}</span>
           </div>
           <div className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-3">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--atlas-navy-soft)] text-sm font-semibold text-[var(--atlas-navy)]">
@@ -197,7 +223,7 @@ export function AppShell({
               <p className="text-sm font-semibold text-[var(--atlas-navy)]">
                 {userName}
               </p>
-              <p className="text-xs text-[var(--atlas-muted)]">{plan}</p>
+              <p className="text-xs text-[var(--atlas-muted)]">{localizedPlan}</p>
             </div>
           </div>
         </div>
@@ -212,7 +238,7 @@ export function AppShell({
                   type="button"
                   className="rounded-full p-2 text-[var(--atlas-navy)] hover:bg-white"
                   onClick={() => setOpen(true)}
-                  aria-label="Open navigation"
+                  aria-label={t("nav.open")}
                   aria-controls="primary-navigation"
                   aria-expanded={open}
                 >
@@ -228,19 +254,20 @@ export function AppShell({
               </h1>
               <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--atlas-muted)]">
                 <span aria-hidden>🇧🇷</span>
-                <span className="text-[var(--atlas-ink)]">{origin}</span>
+                <span className="text-[var(--atlas-ink)]">{localizedOrigin}</span>
                 <span aria-hidden>→</span>
                 <span aria-hidden>🇪🇸</span>
-                <span className="text-[var(--atlas-ink)]">{destination}</span>
+                <span className="text-[var(--atlas-ink)]">{localizedDestination}</span>
                 <span className="text-[var(--atlas-line-strong)]">•</span>
-                <span>{goal}</span>
+                <span>{localizedGoal}</span>
               </p>
             </div>
             <div className="flex shrink-0 items-center gap-2 pt-1">
+              <LanguageSwitcher />
               <button
                 type="button"
                 className="hidden cursor-not-allowed rounded-full p-2.5 text-[var(--atlas-navy)] opacity-60 sm:inline-flex"
-                aria-label="Notifications coming soon"
+                aria-label={t("shell.notifications")}
                 disabled
               >
                 <BellIcon className="h-5 w-5" />
@@ -249,9 +276,9 @@ export function AppShell({
                 variant="secondary"
                 icon={<AdvisorIcon className="h-4 w-4" />}
                 disabled
-                title="Advisor support is not available in this preview"
+                title={t("shell.advisorTitle")}
               >
-                Advisor coming soon
+                {t("shell.advisorButton")}
               </Button>
             </div>
           </div>
@@ -261,7 +288,7 @@ export function AppShell({
       </div>
 
       <nav
-        aria-label="Mobile"
+        aria-label={t("nav.mobile")}
         className="fixed inset-x-0 bottom-0 z-30 border-t border-[var(--atlas-line)] bg-white/95 px-2 py-2 backdrop-blur lg:hidden"
         style={{ paddingBottom: "max(0.5rem, env(safe-area-inset-bottom))" }}
       >
@@ -280,7 +307,7 @@ export function AppShell({
                   }`}
                 >
                   <Icon className="h-5 w-5" />
-                  {item.label}
+                  {t(item.label)}
                 </Link>
               </li>
             );

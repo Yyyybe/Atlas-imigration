@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Card } from "@/app/components/Card";
+import { useLocale } from "@/app/i18n/LocaleProvider";
 import type { OverviewDeadline } from "@/app/lib/overview-view-model";
 
 type DeadlinesCardProps = {
@@ -7,6 +10,9 @@ type DeadlinesCardProps = {
 };
 
 export function DeadlinesCard({ deadlines }: DeadlinesCardProps) {
+  const { locale, t } = useLocale();
+  const dateLocale = locale === "pt" ? "pt-BR" : "en-GB";
+
   return (
     <Card aria-labelledby="deadlines-heading">
       <div className="mb-4 flex items-center justify-between">
@@ -14,13 +20,13 @@ export function DeadlinesCard({ deadlines }: DeadlinesCardProps) {
           id="deadlines-heading"
           className="text-lg font-semibold text-[var(--atlas-navy)]"
         >
-          Upcoming deadlines
+          {t("overview.upcoming")}
         </h2>
         <Link
           href="/deadlines"
           className="text-sm font-semibold text-[var(--atlas-navy)] underline-offset-4 hover:underline"
         >
-          Calendar
+          {t("overview.calendar")}
         </Link>
       </div>
       <ul className="space-y-3">
@@ -31,7 +37,12 @@ export function DeadlinesCard({ deadlines }: DeadlinesCardProps) {
           >
             <time dateTime={item.isoDate} className="w-12 text-center">
               <p className="text-[10px] font-bold uppercase tracking-wide text-[var(--atlas-muted)]">
-                {item.month}
+                {new Intl.DateTimeFormat(dateLocale, {
+                  month: "short",
+                })
+                  .format(new Date(item.isoDate))
+                  .replace(".", "")
+                  .toUpperCase()}
               </p>
               <p className="text-lg font-semibold text-[var(--atlas-navy)]">
                 {item.day}
